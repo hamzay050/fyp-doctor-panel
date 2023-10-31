@@ -7,18 +7,20 @@ export default function Signup() {
     <>
       <Box>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} lg={6}>
             <Image
               src="/Assests/signup.jpg"
               width={650}
               height={610}
-              style={{ margin: "0.3rem", borderRadius: "4px" }}
+              style={{  borderRadius: "4px",width:'100%',height:'95%' }}
               alt="Doctor Image"
             />
           </Grid>
           <Grid
             item
-            xs={6}
+            xs={12}
+            sm={12}
+            lg={6}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -36,28 +38,28 @@ export default function Signup() {
               label="First Name"
               variant="standard"
               required
-              sx={{ width: "350px", margin: "0.9rem" }}
+              sx={{ width: "50%", margin: "0.9rem" }}
             />
             <TextField
               id="outlined-basic"
               label="Last Name"
               variant="standard"
               required
-              sx={{ width: "350px", margin: "0.9rem" }}
+              sx={{ width: "50%", margin: "0.9rem" }}
             />
             <TextField
               id="outlined-basic"
               label="Email"
               variant="standard"
               required
-              sx={{ width: "350px", margin: "0.9rem" }}
+              sx={{ width: "50%", margin: "0.9rem" }}
             />
             <TextField
               id="outlined-basic"
               label="Password"
               variant="standard"
               required
-              sx={{ width: "350px", margin: "0.9rem" }}
+              sx={{ width: "50%", margin: "0.9rem" }}
             />
             <Typography>
               Already a member?{" "}
@@ -76,7 +78,7 @@ export default function Signup() {
             <Link href="/doctor-signup/doctor-form" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
-                sx={{ width: "350px", margin: "2rem 0", fontSize: "1.098rem" }}
+                sx={{ width: {xs:'150px',sm:'300px'}, margin: "2rem 0 1rem 0", fontSize: "1.098rem" }}
               >
                 Sign Up
               </Button>

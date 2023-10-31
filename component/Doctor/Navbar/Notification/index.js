@@ -23,7 +23,7 @@ export default function Notification() {
     const handleClose = () => setOpen(false);
   return (
     <>
-      <Box sx={{position:'absolute',left:'86%'}}>
+      <Box sx={{position:'absolute',left:{xs:'63%',sm:'68%',md:'75%',lg:'86%'}}}>
          <NotificationsIcon fontSize="medium" sx={{cursor:'pointer'}} onClick={handleOpen}/>
       </Box>
 

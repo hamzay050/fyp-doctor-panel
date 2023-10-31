@@ -31,8 +31,8 @@ export default function PersonalInformation() {
         <Image
         onClick={chooseImg}
         src={val===''?'/Assests/docprofile.png':val}
-        width={80}
-        height={80}
+        width={70}
+        height={70}
         alt="Profile Image"
         style={{borderRadius:'50%',margin:'1.5rem 0 0.2rem 0'}}/>
         <Typography variant="body2">Select Profile Image</Typography>
@@ -45,7 +45,7 @@ export default function PersonalInformation() {
               label="First Name"
               variant="standard"
               name="firstName"
-              sx={{ width:'320px',margin:'0.8rem 0'}}
+              sx={{ width:'90%',margin:'0.8rem 0'}}
               value={data.firstName}
               onChange={handleChange}
               required
@@ -56,7 +56,7 @@ export default function PersonalInformation() {
               label="Last Name"
               variant="standard"
               name="lastName"
-              sx={{width:'320px',margin:'0.8rem 0'}}
+              sx={{width:'90%',margin:'0.8rem 0'}}
               value={data.firstName}
               onChange={handleChange}
               required
@@ -68,7 +68,7 @@ export default function PersonalInformation() {
               type="email"
               variant="standard"
               name="email"
-              sx={{ width:'320px',margin:'0.8rem 0'}}
+              sx={{ width:'90%',margin:'0.8rem 0'}}
               value={data.email}
               onChange={handleChange}
               required
@@ -79,7 +79,7 @@ export default function PersonalInformation() {
               label="Contact Number"
               variant="standard"
               name="contact"
-              sx={{ width:'320px',margin:'0.8rem 0'}}
+              sx={{ width:'90%',margin:'0.8rem 0'}}
               value={data.contact}
               onChange={handleChange}
               required

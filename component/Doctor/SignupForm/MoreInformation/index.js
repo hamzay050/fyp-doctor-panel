@@ -20,7 +20,7 @@ export default function MoreInformation() {
               label="Clinic Name"
               variant="standard"
               name="clinic"
-              sx={{ margin: "0.5rem 1rem", width: "400px" }}
+              sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.clinic}
               onChange={handleChange}
               required
@@ -31,7 +31,7 @@ export default function MoreInformation() {
               label="Address Line"
               variant="standard"
               name="address"
-              sx={{ margin: "0.5rem 1rem", width: "400px" }}
+              sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.address}
               onChange={handleChange}
               required
@@ -41,7 +41,7 @@ export default function MoreInformation() {
               label="City"
               name="city"
               variant="standard"
-              sx={{ margin: "0.5rem 1rem", width: "400px" }}
+              sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.city}
               onChange={handleChange}
               required
@@ -51,7 +51,7 @@ export default function MoreInformation() {
               label="Street No"
               name="street"
               variant="standard"
-              sx={{ margin: "0.5rem 1rem", width: "400px" }}
+              sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.street}
               onChange={handleChange}
               required

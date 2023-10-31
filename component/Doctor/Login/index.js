@@ -49,18 +49,20 @@ const Login = () => {
     <>
       <Box>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} lg={6}>
             <Image
               src="/Assests/login.jpg"
               width={650}
               height={610}
               alt="Login Image"
-              style={{ margin: "0.3rem", borderRadius: "4px" }}
+              style={{ margin: "0.3rem", borderRadius: "4px",width:'90%',height:'90%'}}
             />
           </Grid>
           <Grid
             item
-            xs={6}
+            xs={12}
+            sm={12}
+            lg={6}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -68,7 +70,7 @@ const Login = () => {
           >
             <Typography
               variant="h3"
-              sx={{ margin: "2rem 0 1rem 0", color: "black" }}
+              sx={{ margin: "2rem 0 1rem 0", color: "black"}}
             >
               Login
             </Typography>
@@ -77,14 +79,14 @@ const Login = () => {
               label="Email"
               variant="standard"
               required
-              sx={{ width: "350px", margin: "1.1rem" }}
+              sx={{ width: "50%", margin: "1.1rem" }}
             />
             <TextField
               id="outlined-basic"
               label="Password"
               variant="standard"
               required
-              sx={{ width: "350px", margin: "1.1rem" }}
+              sx={{ width: "50%", margin: "1.1rem" }}
             />
 
             <Link href="" style={{ margin: "0.5rem", color: "black" }}>
@@ -107,7 +109,7 @@ const Login = () => {
             </div>
               <Button onClick={handleClick} color="primary" size="small" 
                   variant="contained"
-                  sx={{ width: "350px", margin: "2rem 0", fontSize: "1.098rem" }}
+                  sx={{ width: {xs:'150px',sm:'300px'}, margin: "2rem 0", fontSize: "1.098rem" }}
                 >Login</Button>
              
             

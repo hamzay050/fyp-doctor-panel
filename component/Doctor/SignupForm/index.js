@@ -22,7 +22,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: {xs:'90%',sm:'50%',lg:'30%'},
   bgcolor: 'background.paper',
   border:'1px solid gray',
   borderRadius:'5px',
@@ -52,7 +52,7 @@ export default function SignupForm() {
     <>
    
    <Box mt='2rem' sx={{width:'100%',height:'auto',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-    <Stepper sx={{width:'50%'}} activeStep={activeStep} alternativeLabel>
+    <Stepper sx={{width:{xs:'100%',sm:'50%'}}} activeStep={activeStep} alternativeLabel>
       {steps.map((label,index)=>{
       return (
      <Step key={index}>
@@ -61,7 +61,7 @@ export default function SignupForm() {
      )
       })}
     </Stepper>
-    <Box sx={{border:'1px solid grey',borderRadius:'10px',width:'33%', margin:'2rem 0'}}>
+    <Box sx={{border:'1px solid grey',borderRadius:'10px',width:{xs:'90%',sm:'47%',lg:'33%'}, margin:'2rem 0'}}>
     {activeStep===0 && <PersonalInformation/>}
     {activeStep===1 && <MoreInformation/>}
     {activeStep===2 && <ProfessionalDetails/>}
@@ -86,7 +86,7 @@ export default function SignupForm() {
         <Typography variant="body2" color="text.secondary" sx={{margin:'0.4rem'}}>
         Your Application has been submitted .Your account verification is currently in progress. Please wait while we verify your information.
         </Typography>
-      <Link href='/doctor/home' style={{textDecoration:'none'}}><Button variant="outlined" color='secondary' sx={{margin:'1rem',width:'300px'}}>Return to Home Page</Button></Link>
+      <Link href='/doctor/home' style={{textDecoration:'none'}}><Button variant="outlined" color='secondary' sx={{margin:'1rem',width:'90%'}}>Return to Home Page</Button></Link>
        </Box>
       </Modal>
     </>

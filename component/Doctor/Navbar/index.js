@@ -6,6 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import Notification from './Notification';
+import MenuIcon from '@mui/icons-material/Menu';
 
  const Navbar=() =>{
   const menu=useRef();
@@ -26,15 +27,16 @@ import Notification from './Notification';
        <AppBar position='static' sx={{height:'57px'}}>
          <Toolbar >
              <Box sx={{display:'flex',alignItems:'center'}}>
+              <MenuIcon sx={{display:{xs:'initial',lg:'none'}}}/>
                 <Image
                 src='/Assests/mlogo.png'
                 width={70}
                 height={60}
-                style={{margin:'0'}}
+                style={{margin:'0',maxWidth:'70x',minWidth:'40px'}}
                 alt='Logo Image'/>
-                <Typography sx={{fontWeight:'600'}}>HEALTH EASE</Typography>
+                <Typography variant='body1' sx={{fontWeight:'600',fontSize:{xs:'0.8rem',sm:''}}}>HEALTH EASE</Typography>
              </Box>
-             <Box sx={{marginLeft:'3rem'}}>
+             <Box sx={{marginLeft:'3rem',display:{xs:'none',lg:'initial'},width:{sx:'100px'}}}>
                  
                 <Link href="/doctor/home" className='links' style={{margin:'0 0.7rem',textDecoration:'none'}}><Button sx={{color:'white',fontSize:'0.898rem',letterSpacing:'1px'}}>HOME</Button></Link>
                 <Link href='/doctor/medicine' style={{margin:'0 0.7rem',textDecoration:'none'}}> <Button sx={{color:'white',fontSize:'0.898rem',letterSpacing:'1px'}}>Medicine</Button> </Link>
@@ -43,7 +45,7 @@ import Notification from './Notification';
                 <Link href='/doctor/message' style={{margin:'0 0.7rem',textDecoration:'none'}}> <Button sx={{color:'white',fontSize:'0.898rem',letterSpacing:'1px'}}>Messages</Button> </Link>
              </Box>
              <Notification/>
-             <Box ref={menu} sx={{position:'absolute',left:'90%'}}>
+             <Box ref={menu} sx={{position:'absolute',left:{xs:'70%',sm:'76%',md:'80%',lg:'90%'}}}>
               <Tooltip title='Profile'>
               <Avatar size='medium' onClick={toggleMenu} sx={{cursor:'pointer',border:'1px solid #d7c2c29e'}} src='/Assests/hero1.png'>M</Avatar>
               </Tooltip>

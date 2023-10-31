@@ -20,7 +20,7 @@ export default function ProfessionalDetails() {
               id="standard-select-currency"
               label="Speciality"
               variant="standard"
-              sx={{margin: "0.5rem 1rem", width: "400px"}}
+              sx={{margin: "0.5rem 1rem", width: "90%"}}
               value={data.speciality}
               onChange={handleChange}
               required
@@ -30,13 +30,13 @@ export default function ProfessionalDetails() {
               id="standard-select-currency"
               label="Education"
               variant="standard"
-              sx={{margin: "0.5rem 1rem", width: "400px"}}
+              sx={{margin: "0.5rem 1rem", width: "90%"}}
               value={data.education}
               onChange={handleChange}
               required
             />
             <TextField 
-              sx={{ width: "300px", margin: "0.5rem 1rem" }}
+              sx={{ width: {xs:'60%',sm:'80%',lg:'60%'}, margin: "0.5rem 1rem" }}
               type="file"
               label="UploadLicenses"
                name="uploadLicense" autoComplete="off"
@@ -53,7 +53,7 @@ export default function ProfessionalDetails() {
               label="Year's of Experience"
               variant="standard"
               type="number"
-              sx={{width:'160px',margin:'0.5rem 1.3rem'}}
+              sx={{width:'36%',margin:'0.5rem 1.3rem'}}
               value={data.experience}
               onChange={handleChange}
               required
@@ -62,7 +62,7 @@ export default function ProfessionalDetails() {
              
             <FormControl 
               variant="standard"
-              sx={{ width: "160px", margin: "0.5rem 1rem" }}
+              sx={{ width: "36%", margin: "0.5rem 1rem" }}
             >
               <InputLabel id="demo-simple-select-label" required>Sex</InputLabel>
               <Select
@@ -83,7 +83,7 @@ export default function ProfessionalDetails() {
               helperText='Date Of Birth'
               type="date"
               variant="outlined"
-              sx={{  width: "200px", margin:'0.8rem 1rem' }}
+              sx={{  width: "50%", margin:'0.8rem 1rem' }}
               name='dob'
               value={data.dob}
               onChange={handleChange}
