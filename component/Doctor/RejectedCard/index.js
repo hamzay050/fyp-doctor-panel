@@ -1,43 +1,63 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import Avatarpatient from './avatar/avatar'
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Box, CardActionArea, Divider, Grid } from '@mui/material';
+import React from "react";
+import Avatarpatient from '../Avatar2'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+} from "@mui/material";
+import ClearIcon from '@mui/icons-material/Clear';
 
-export default function ApprovedCard() {
-    const totalwidth=30;
-  const totalheight=30;
+const PatientCard = () => {
+  const totalwidth=80;
+  const totalheight=80;
   return (
-    <Box  >
-    
-    <Card sx={{ maxWidth: 820 , marginLeft:"50px", marginTop:"50px", border:"1px solid black"}}> 
-      <CardActionArea>
-        <Grid container sx={{display:"flex", justifyContent:"center", alignItems:"center" ,marginLeft:"40px"}}>
-            <Grid item lg={2}>
-        
-        <Box  >
-        <Avatarpatient mwidth={totalwidth} mheight={totalheight}   />
+    <Box
+      sx={{
+        margin:'2rem 0',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }} 
+    >
+
+      <Card sx={{ width: 340  }}>
+
+      <Box sx={{display:'flex',justifyContent:'end',margin:'0.5rem 1rem'}}>
+            <ClearIcon fontSize='small' color='secondary'/>
+            <Typography variant='caption' color='secondary'>Rejected</Typography>
         </Box>
+     
+        <Box display="flex" flexDirection='column' justifyContent="center" alignItems="center" m='1rem 0 0.5rem 0' >
+        <Avatarpatient mwidth={totalwidth} mheight={totalheight}   />
+            <Typography sx={{margin:'0.5rem 0',fontWeight:600,color:'#393a3a'}} variant="body1" component="div">
+              Kashif  Nadeem
+            </Typography>
+        </Box>
+          <CardContent>
+        <Box m='0.4rem 0 '>
+         <Typography variant='body1' sx={{display:'inline',fontWeight:600,color:'#757676'}}>Contact No:</Typography>
+         <Typography variant='body2' sx={{display:'inline',color:'#515454'}}> 00000000 </Typography>
+         </Box>
+         <Box m='0.4rem 0 '>
+         <Typography variant='body1' sx={{display:'inline',fontWeight:600,color:'#757676'}}>Gmail:</Typography>
+         <Typography variant='body2' sx={{display:'inline',color:'#515454'}}> none@gmail.com</Typography>
+         </Box>
+        <Box m='0.4rem 0 '>
+         <Typography variant='body1' sx={{display:'inline',fontWeight:600,color:'#757676'}}>Appointment Date:</Typography>
+         <Typography variant='body2' sx={{display:'inline',color:'#515454'}}> 00-00-0000 </Typography>
+         </Box>
+         <Box m='0.4rem 0 '>
+         <Typography variant='body1' sx={{display:'inline',fontWeight:600,color:'#757676'}}>Appointment Time:</Typography>
+         <Typography variant='body2' sx={{display:'inline'}}> 00-00 AM </Typography>
+         </Box>
+            
+          </CardContent>
         
-        </Grid>
-        <Grid item lg={10}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Kashif
-          </Typography>
-          <Typography variant="body1" fontWeight={700} color="text.secondary">
-           <span style={{color:"Red"}}>Rejected</span> at jan 22, 2023 10:30 PM
-          </Typography>
-          <Typography>
-            <span style={{fontWeight:"600"}}>Reason</span> : It might be related to a message informing a healthcare facility that a patient has rejected or declined a scheduled appointment.
-          </Typography>
-        </CardContent>
-        </Grid>
-        </Grid>
-      </CardActionArea>
-    </Card>
+      </Card>
+      
     </Box>
   );
-}
+};
+
+export default PatientCard;
