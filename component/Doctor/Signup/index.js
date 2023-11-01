@@ -9,7 +9,7 @@ export default function Signup() {
         <Grid container>
           <Grid item xs={12} sm={12} lg={6}>
             <Image
-              src="/Assests/signup.jpg"
+              src="/Assests/try2.jpg"
               width={650}
               height={610}
               style={{  borderRadius: "4px",width:'100%',height:'95%' }}

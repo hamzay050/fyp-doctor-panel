@@ -51,7 +51,7 @@ const Login = () => {
         <Grid container>
           <Grid item xs={12} sm={12} lg={6}>
             <Image
-              src="/Assests/login.jpg"
+              src="/Assests/try4.jpg"
               width={650}
               height={610}
               alt="Login Image"

@@ -14,13 +14,14 @@ export default function SetAvailibility() {
   }
   return (
     <>
-      <Grid container justifyContent='center' alignItems='center' sx={{margin:'4rem 0 0 0'}}>
+      <Grid container justifyContent='center' alignItems='center' sx={{width:'100vw',marginTop:'9rem'}}>
        <Grid item xs={4} sx={{display:'flex',flexDirection:'column'}}>
           <Typography variant="body1" sx={{fontWeight:'600'}}>Select Date</Typography>
           <TextField
           variant="outlined"
           helperText="Start Date"
           name="startDate"
+          size-='small'
           type="date"
           sx={{width:'200px',margin:'1rem 1rem 1rem 0'}}
           value={data.startDate}
@@ -29,6 +30,7 @@ export default function SetAvailibility() {
           variant="outlined"
           helperText="End Date"
           name="endDate"
+          size-='small'
           type="date"
           sx={{width:'200px',margin:'0rem 1rem 2rem 0'}}
           value={data.endDate}
@@ -40,6 +42,7 @@ export default function SetAvailibility() {
           variant="outlined"
           helperText="Start Time"
           name="startTime"
+          size-='small'
           type="time"
           sx={{width:'200px',margin:'1rem 1rem 1rem 0'}}
           value={data.startTime}
@@ -48,13 +51,14 @@ export default function SetAvailibility() {
           variant="outlined"
           helperText="End Time"
           name="endTime"
+          size-='small'
           type="time"
           sx={{width:'200px',margin:'0rem 1rem 2rem 0'}}
           value={data.endTime}
           onChange={handleChange}/>
        </Grid>
       </Grid> 
-      <Box sx={{marginLeft:'14rem',display:'flex',flexDirection:'column'}}>
+      <Box sx={{marginLeft:'14rem'}}>
       <Button onClick={showData} variant="contained" color='secondary' sx={{color:'white',width:'180px'}}>Save</Button> 
         </Box>    
     </>

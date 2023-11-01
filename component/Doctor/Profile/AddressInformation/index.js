@@ -45,7 +45,7 @@ export default function Address() {
         variant="outlined"
         label='City'
         name="city"
-        sx={{margin:'1rem 2rem 1rem 0'}}
+        sx={{margin:'1rem 2rem 1rem 0',width:'370px'}}
         required
         value={data.city}
         onChange={handleChange}/>

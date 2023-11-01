@@ -14,7 +14,7 @@ export default function MessageBox() {
                 <AvatarBox mwidth={totalwidth} mheight={totalheight}/>
                 <Box sx={{margin:'0 0.5rem'}}>
                 <Typography variant='h6'>JAMSHAID KHAN</Typography>
-                <Typography variant='p'>NOOB DEV MBBS</Typography>
+                <Typography variant='p'>Dermatologist</Typography>
                 </Box>
             </Box>
               

@@ -61,7 +61,7 @@ export default function SignupForm() {
      )
       })}
     </Stepper>
-    <Box sx={{border:'1px solid grey',borderRadius:'10px',width:{xs:'90%',sm:'47%',lg:'33%'}, margin:'2rem 0'}}>
+    <Box sx={{border:'1px solid #cdd3d2',backgroundColor:'white',borderRadius:'10px',width:{xs:'90%',sm:'47%',lg:'33%'}, margin:'2rem 0'}}>
     {activeStep===0 && <PersonalInformation/>}
     {activeStep===1 && <MoreInformation/>}
     {activeStep===2 && <ProfessionalDetails/>}
