@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Box,TextField,Typography,Button,TextareaAutosize } from "@mui/material"
+import { Box,FormControl,InputLabel,Select,MenuItem,TextField,Typography,Button,TextareaAutosize } from "@mui/material"
+import specialties from "@/component/Doctor/SignupForm/ProfessionalDetails/specialties"
+import education from "@/component/Doctor/SignupForm/ProfessionalDetails/education"
+import doctorExperience from "@/component/Doctor/SignupForm/ProfessionalDetails/experience"
 
 export default function Medical() {
   const [data, setData] = useState({
@@ -16,60 +19,105 @@ export default function Medical() {
   return (
     <div>
 
-      <Box m='2rem 1rem'>
+      <Box m='1rem'>
       <Typography variant="body2" sx={{color:'#b9b7b7'}}>Medical Infromation</Typography>
-      <TextField
-        variant="outlined"
-        label='Height'
-        name="height"
-        sx={{margin:'1rem 2rem 1rem 0'}}
-        required
-        value={data.height}
-        onChange={handleChange}/>
-        <TextField
-        variant="outlined"
-        label='Weight'
-        name="weight"
-        sx={{margin:'1rem 2rem 1rem 0'}}
-        required
-        value={data.weight}
-        onChange={handleChange}/>
-        <TextField
-        variant="outlined"
-        label='Martial status'
-        name="martialStatus"
-        sx={{margin:'1rem 2rem 1rem 0'}}
-        required
-        value={data.martialStatus}
-        onChange={handleChange}/>
-        <TextField
-        variant="outlined"
-        label='Blood group'
-        name="bloodGroup"
-        sx={{margin:'1rem 2rem 1rem 0'}}
-        required
-        value={data.bloodGroup}
-        onChange={handleChange}/>
-        <TextField
-        variant="outlined"
-        label='Sex'
-        name="sex"
-        sx={{margin:'1rem 2rem 1rem 0'}}
-        required
-        value={data.sex}
-        onChange={handleChange}/>
-        <TextField
-        variant="outlined"
-        label='Date of birth'
-        name="DOB"
-        sx={{margin:'1rem 2rem 1rem 0'}}
-        required
-        value={data.DOB}
-        onChange={handleChange}/>
+      <FormControl 
+              variant="outlined"
+              sx={{ margin:'0.7rem 2rem 0.7rem 0',width:'370px' }}
+            >
+              <InputLabel id="demo-simple-select-label" required>Speciality</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="speciality"
+                label='Speciality'
+                value={data.speciality}
+                onChange={handleChange}
+              >
+               {specialties.map((curVal)=>{
+                return(
+                  <MenuItem key={curVal} value={curVal}>{curVal}</MenuItem>
+                )
+               })}
+              </Select>
+            </FormControl>
+
+            <FormControl 
+              variant="outlined"
+              sx={{ margin:'0.7rem 2rem 0.7rem 0',width:'370px' }}
+            >
+              <InputLabel id="demo-simple-select-label" required>Education</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label='Education'
+                name="education"
+                value={data.education}
+                onChange={handleChange}
+              >
+               {education.map((curVal)=>{
+                return(
+                  <MenuItem key={curVal} value={curVal}>{curVal}</MenuItem>
+                )
+               })}
+              </Select>
+            </FormControl>
+            <FormControl 
+              variant="outlined"
+              sx={{ margin:'0.7rem 2rem 0.7rem 0',width:'370px' }}
+            >
+              <InputLabel id="demo-simple-select-label" required>Experience</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label='Experience'
+                name="experience"
+                value={data.experience}
+                onChange={handleChange}
+              >
+               {doctorExperience.map((curVal)=>{
+                return(
+                  <MenuItem key={curVal} value={curVal}>{curVal}</MenuItem>
+                )
+               })}
+              </Select>
+            </FormControl>
+
+            
+             
+            <FormControl 
+              variant="outlined"
+              sx={{margin:'0.7rem 2rem 0.7rem 0',width:'370px'}}
+            >
+              <InputLabel id="demo-simple-select-label" required>Sex</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label='Gender'
+                name="gender" autoComplete="off"
+                value={data.gender}
+              onChange={handleChange}
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+              </Select>
+            </FormControl>
+              {/* DOB */}
+              <TextField
+              id="filled-basic"
+              helperText='Date Of Birth'
+              type="date"
+              variant="outlined"
+              sx={{  margin:'0.7rem 2rem 0.7rem 0',width:'370px' }}
+              name='dateOfBirth'
+              value={data.dateOfBirth}
+              onChange={handleChange}
+              required
+            />
         <Typography variant='body2' sx={{color:'#b9b7b7'}}>Profession Details</Typography>
-        <TextareaAutosize maxRows={4} minRows={4} name='professionDetails' onChange={handleChange} value={data.professionDetails} style={{width:'600px',margin:'1rem 0.1rem',padding:'0.1rem',fontSize:'1rem',borderColor:'#b9b7b7',borderRadius:'5px'}} />
+        <TextareaAutosize maxRows={4} minRows={4} name='professionDetails' onChange={handleChange} value={data.professionDetails} style={{width:'770px',margin:' 0.1rem',padding:'0.1rem',fontSize:'1rem',borderColor:'#b9b7b7',borderRadius:'5px'}} />
         <br />
-      <Button onClick={showData} variant='contained' color='secondary' sx={{margin:'1rem 0.1rem',color:'white'}}>Save Changes</Button>
+      <Button onClick={showData} variant='contained' color='secondary' sx={{margin:'0.5rem 0.1rem',color:'white'}}>Save Changes</Button>
       </Box>
     </div>
   )

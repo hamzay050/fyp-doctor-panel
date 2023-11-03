@@ -53,6 +53,7 @@ export default function Profile() {
                   fontSize: "0.8rem",
                   flexDirection: "row",
                   alignItems: "center",
+                  justifyContent:'start'
                 }}
                 disableRipple
               />
@@ -63,6 +64,8 @@ export default function Profile() {
                   fontSize: "0.8rem",
                   flexDirection: "row",
                   alignItems: "center",
+                  justifyContent:'start'
+
                 }}
                 disableRipple
               />
@@ -73,6 +76,8 @@ export default function Profile() {
                   fontSize: "0.8rem",
                   flexDirection: "row",
                   alignItems: "center",
+                  justifyContent:'start'
+
                 }}
                 disableRipple
               />

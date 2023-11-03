@@ -34,11 +34,11 @@ export default function PersonalInformation() {
         width={70}
         height={70}
         alt="Profile Image"
-        style={{borderRadius:'50%',margin:'1.5rem 0 0.2rem 0'}}/>
+        style={{borderRadius:'50%',margin:'1rem 0 0.2rem 0'}}/>
         <Typography variant="body2">Select Profile Image</Typography>
     </Box>
 
-    <Box mt='1rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
+    <Box mt='0.5rem' display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
          {/* FIRST NAME */}
              <TextField
               id="firstname"

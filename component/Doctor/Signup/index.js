@@ -5,14 +5,13 @@ import Link from "next/link";
 export default function Signup() {
   return (
     <>
-      <Box>
         <Grid container>
           <Grid item xs={12} sm={12} lg={6}>
             <Image
               src="/Assests/try2.jpg"
               width={650}
               height={610}
-              style={{  borderRadius: "4px",width:'100%',height:'95%' }}
+              style={{  borderRadius: "4px",minWidth:'100%',minHeight:'95%' }}
               alt="Doctor Image"
             />
           </Grid>
@@ -85,7 +84,6 @@ export default function Signup() {
             </Link>
           </Grid>
         </Grid>
-      </Box>
     </>
   );
 }

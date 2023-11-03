@@ -1,10 +1,13 @@
 import { Box,FormControl,InputLabel,Select,MenuItem,TextField } from "@mui/material"
 import { FileUpload } from "@mui/icons-material"
 import { useState } from "react"
+import specialties from "./specialties"
+import education from "./education"
+import doctorExperience from "./experience"
 
 export default function ProfessionalDetails() {
   const [data, setData] = useState({
-    speciality:'',education:'',uploadLicense:'',experience:'',gender:'',dob:''
+    speciality:'',education:'',uploadLicense:'',experience:'',gender:'',dateOfBirth:''
   })
   const handleChange=(e)=>{
     const value=e.target.value;
@@ -15,28 +18,49 @@ export default function ProfessionalDetails() {
   return (
     <>
        <Box>           
-            <TextField  
-              name="speciality"
-              id="standard-select-currency"
-              label="Speciality"
+
+       <FormControl 
               variant="standard"
-              sx={{margin: "0.5rem 1rem", width: "90%"}}
-              value={data.speciality}
-              onChange={handleChange}
-              required
-            />
-             <TextField  
-              name="education"
-              id="standard-select-currency"
-              label="Education"
+              sx={{ width: "90%", margin: "0.5rem 1rem" }}
+            >
+              <InputLabel id="demo-simple-select-label" required>Speciality</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="speciality"
+                value={data.speciality}
+                onChange={handleChange}
+              >
+               {specialties.map((curVal)=>{
+                return(
+                  <MenuItem key={curVal} value={curVal}>{curVal}</MenuItem>
+                )
+               })}
+              </Select>
+            </FormControl>
+
+            <FormControl 
               variant="standard"
-              sx={{margin: "0.5rem 1rem", width: "90%"}}
-              value={data.education}
-              onChange={handleChange}
-              required
-            />
+              sx={{ width: "90%", margin: "0.5rem 1rem" }}
+            >
+              <InputLabel id="demo-simple-select-label" required>Education</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="education"
+                value={data.education}
+                onChange={handleChange}
+              >
+               {education.map((curVal)=>{
+                return(
+                  <MenuItem key={curVal} value={curVal}>{curVal}</MenuItem>
+                )
+               })}
+              </Select>
+            </FormControl>
+
             <TextField 
-              sx={{ width: {xs:'60%',sm:'80%',lg:'60%'}, margin: "0.5rem 1rem" }}
+              sx={{ width: {xs:'60%',sm:'80%',lg:'55%'}, margin: "1rem" }}
               type="file"
               label="UploadLicenses"
                name="uploadLicense" autoComplete="off"
@@ -47,22 +71,32 @@ export default function ProfessionalDetails() {
             >
               <FileUpload />
             </TextField>
-            <TextField  
-              name="experience"
-              id="standard-select-currency"
-              label="Year's of Experience"
+
+            <FormControl 
               variant="standard"
-              type="number"
-              sx={{width:'36%',margin:'0.5rem 1.3rem'}}
-              value={data.experience}
-              onChange={handleChange}
-              required
-            />
+              sx={{ width: "41%", margin: "0.5rem 1rem" }}
+            >
+              <InputLabel id="demo-simple-select-label" required>Experience</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="experience"
+                value={data.experience}
+                onChange={handleChange}
+              >
+               {doctorExperience.map((curVal)=>{
+                return(
+                  <MenuItem key={curVal} value={curVal}>{curVal}</MenuItem>
+                )
+               })}
+              </Select>
+            </FormControl>
+
             
              
             <FormControl 
               variant="standard"
-              sx={{ width: "36%", margin: "0.5rem 1rem" }}
+              sx={{ width: "41%", margin: "0.5rem 1rem" }}
             >
               <InputLabel id="demo-simple-select-label" required>Sex</InputLabel>
               <Select
@@ -83,9 +117,9 @@ export default function ProfessionalDetails() {
               helperText='Date Of Birth'
               type="date"
               variant="outlined"
-              sx={{  width: "50%", margin:'0.8rem 1rem' }}
-              name='dob'
-              value={data.dob}
+              sx={{  width: "55%", margin:' 1rem' }}
+              name='dateOfBirth'
+              value={data.dateOfBirth}
               onChange={handleChange}
               required
             />
