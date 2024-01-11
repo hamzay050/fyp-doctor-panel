@@ -61,16 +61,26 @@ export default function SignupForm() {
      )
       })}
     </Stepper>
-    <Box sx={{border:'1px solid #cdd3d2',backgroundColor:'white',borderRadius:'10px',width:{xs:'90%',sm:'47%',lg:'33%'}, margin:'2rem 0'}}>
+
+    { activeStep<2 && <Box sx={{border:'1px solid #cdd3d2',backgroundColor:'white',borderRadius:'10px',width:{xs:'90%',sm:'47%',lg:'33%'}, margin:'2rem 0'}}>
     {activeStep===0 && <PersonalInformation/>}
     {activeStep===1 && <MoreInformation/>}
-    {activeStep===2 && <ProfessionalDetails/>}
     <Box sx={{display:'flex',justifyContent:'space-around',width:'100%',margin:'0.6rem 0 0.5rem 0'}}>
       <Button onClick={handleBack}>Back</Button>
       {activeStep<=1 && <Button onClick={handleNext}>Next</Button>}
     { activeStep===2 && <Button onClick={handleOpen}>Finish</Button> }
     </Box>
+    </Box>}
+
+
+    {activeStep===2 && <Box sx={{border:'1px solid #cdd3d2',backgroundColor:'white',borderRadius:'10px',width:'70%', margin:'2rem 0'}}>
+    <ProfessionalDetails/>
+    <Box sx={{display:'flex',justifyContent:'space-around',width:'100%',margin:'0.6rem 0 0.5rem 0'}}>
+      <Button onClick={handleBack}>Back</Button>
+      {activeStep<=1 && <Button onClick={handleNext}>Next</Button>}
+    { activeStep===2 && <Button onClick={handleOpen}>Finish</Button> }
     </Box>
+    </Box>}
     </Box>
     {/* Modal on finish click */}
     <Modal

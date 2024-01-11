@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box,FormControl,InputLabel,Select,MenuItem,TextField,Typography,Button,TextareaAutosize } from "@mui/material"
 import specialties from "@/component/Doctor/SignupForm/ProfessionalDetails/specialties"
 import education from "@/component/Doctor/SignupForm/ProfessionalDetails/education"
-import doctorExperience from "@/component/Doctor/SignupForm/ProfessionalDetails/experience"
 
 export default function Medical() {
   const [data, setData] = useState({
@@ -16,6 +15,8 @@ export default function Medical() {
   const showData=()=>{
     console.log(data)
   }
+  const doctorExperience = ['0-5', '5-10', '10+']; // Customize as needed
+
   return (
     <div>
 

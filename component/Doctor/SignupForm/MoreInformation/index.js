@@ -3,7 +3,7 @@ import { useState } from "react"
 
 export default function MoreInformation() {
   const [address, setAddress] = useState({
-    clinic:'',address:'',city:'',street:'',zip:'',state:''
+    clinicName:'',addressLine:'',city:'',streetNo:'',zipCode:'',state:''
   })
   const handleChange=(e)=>{
     const value=e.target.value;
@@ -19,7 +19,7 @@ export default function MoreInformation() {
               id="filled-basic"
               label="Clinic Name"
               variant="standard"
-              name="clinic"
+              name="clinicName"
               sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.clinic}
               onChange={handleChange}
@@ -30,7 +30,7 @@ export default function MoreInformation() {
               id="filled-basic"
               label="Address Line"
               variant="standard"
-              name="address"
+              name="addressLine"
               sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.address}
               onChange={handleChange}
@@ -49,7 +49,7 @@ export default function MoreInformation() {
                <TextField
               id="filled-basic"
               label="Street No"
-              name="street"
+              name="streetNo"
               variant="standard"
               sx={{ margin: "0.5rem 1rem", width: "90%" }}
               value={address.street}
@@ -59,7 +59,7 @@ export default function MoreInformation() {
             <TextField
               id="filled-basic"
               label="Zip code"
-              name="zip"
+              name="zipCode"
               variant="standard"
               sx={{ margin: "0.5rem 1rem", width: "150px" }}
               value={address.zip}
