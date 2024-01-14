@@ -1,0 +1,38 @@
+const medicalCertificates = [
+    'Advanced Cardiovascular Life Support (ACLS)',
+    'Basic Life Support (BLS)',
+    'Pediatric Advanced Life Support (PALS)',
+    'Advanced Trauma Life Support (ATLS)',
+    'Neonatal Resuscitation Program (NRP)',
+    'Fundamental Critical Care Support (FCCS)',
+    'Emergency Medicine Certificate',
+    'Internal Medicine Board Certification',
+    'Surgery Board Certification',
+    'Obstetrics and Gynecology Board Certification',
+    'Psychiatry Board Certification',
+    'Family Medicine Board Certification',
+    'Anesthesiology Board Certification',
+    'Radiology Board Certification',
+    'Dermatology Board Certification',
+    'Ophthalmology Board Certification',
+    'Otolaryngology Board Certification',
+    'Pathology Board Certification',
+    'Urology Board Certification',
+    'Neurology Board Certification',
+    'Pulmonary Medicine Board Certification',
+    'Infectious Disease Board Certification',
+    'Gastroenterology Board Certification',
+    'Rheumatology Board Certification',
+    'Endocrinology Board Certification',
+    'Hematology/Oncology Board Certification',
+    'Nephrology Board Certification',
+    'Cardiology Board Certification',
+    'Allergy and Immunology Board Certification',
+    'Clinical Informatics Board Certification',
+    'Sleep Medicine Board Certification',
+    'Sports Medicine Board Certification',
+    // Add more certifications as needed
+  ];
+  
+  export default medicalCertificates;
+  

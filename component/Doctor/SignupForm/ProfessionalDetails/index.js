@@ -1,274 +1,134 @@
 import React, { useState } from 'react';
 import {
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Autocomplete,
   Typography,
-  Box
+  Box,
+  Button
 } from '@mui/material';
-import education from './education';
-import specialties from './specialties';
-import { Add } from '@mui/icons-material';
-
-const DoctorRegistrationForm = () => {
-  const [data, setData] = useState({
-    medicalLicenseNo: '',
-    specialty: '',
-    experience: '',
-    education: '',
-    passingYear: '',
-    instituteName: '',
-    instituteLocation: '',
-    startDate: '',
-    endDate: '',
-    workInstitute: '',
-    workPeriod: '',
-    generalConsultation:'',
-    surgery:'',
-    telemedicine:'',
-    languagesSpoken: '',
-  });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-
-  console.log(data)
-  const doctorExperience = ['0-5', '5-10', '10+']; // Customize as needed
-
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import medicalCertificates from './certificate';
+import speciality from './specialties';
+const ProfessionalDetails = ({data,setData}) => {
+  const [allCertificates, setAllCertificates] = useState([])
+  const [certificate, setCertificate] = useState({
+    certificateTitle:'',instituteName:'',startDate:'',endDate:''
+  })
+  const handleChange= (e)=>{
+     const name= e.target.name;
+     const value=e.target.value;
+     setCertificate({...certificate,[name]:value})
+  }
+  const newCertificate= ()=>{
+    if(certificate.certificateTitle!=='' && certificate.instituteName!=='' && certificate.startDate!=='' && certificate.endDate!==''){
+      setAllCertificates([...allCertificates, certificate]);
+      console.log(allCertificates)
+    }else{
+      console.log("ALL FIELDS ARE NECCESSARY")
+    }
+  }
+  const handleDelete=(recordId)=>{
+      const updatedCertificates= [...allCertificates];
+      updatedCertificates.splice(recordId,1);
+      setAllCertificates(updatedCertificates)
+  }
   return (
-    <Box m='0.6rem 0 0 0'>
-      {/* Personal Information */}
-      <TextField
-        id="filled-basic"
-        label="Medical License No"
-        variant="outlined"
-        size="small"
-        name="medicalLicenseNo"
-        sx={{ margin: '0.5rem 1rem', width: '20%' }}
-        value={data.medicalLicenseNo}
-        onChange={handleChange}
-        required
+  <>
+     <Typography variant="body2" sx={{margin:'0.4rem',color:'#646464'}}>Professional Information: </Typography>
+     <Box sx={{display:{xs:'initial',sm:'flex'},margin:{xs:'0rem',sm:'0.4rem'}}}>
+     <TextField
+          variant='outlined'
+          label='Medical License Number'
+          name='medicalLicenseNumber'
+          size='small'
+          value={data.medicalLicenseNumber}
+          onChange={(e)=>{setData({...data,medicalLicenseNumber:e.target.value})}}
+          sx={{width:{xs:'100%',sm:'40%',md:'20%'},margin:{xs:'0.4rem 0',sm:'0.4rem',md:'0 0.4rem'}}}/>
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={speciality}
+        size='small'
+        value={data.specialities}
+        onChange={(event,values)=>{console.log("value:",values);  setData({...data,specialities:values} )}}
+        getOptionLabel={(option) => option}
+        defaultValue={[speciality[0]]}
+        filterSelectedOptions
+        sx={{width:{xs:'100%',sm:'40%',md:'30%'},margin:{xs:'0.4rem 0',md:'0 0.4rem'}}}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Specialities"
+            placeholder="Specialies"
+          />
+        )}
       />
-
-      {/* Professional Information */}
-      <FormControl variant="outlined" size="small" sx={{ width: '33%', margin: '0.5rem 1rem' }}>
-        <InputLabel id="specialty-label" required>
-          Specialty
-        </InputLabel>
-        <Select
-          labelId="specialty-label"
-          id="specialty"
-          name="specialty"
-          value={data.specialty}
-          onChange={handleChange}
-        >
-          {specialties.map((curVal) => (
-            <MenuItem key={curVal} value={curVal}>
-              {curVal}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {/* Experience */}
-      <FormControl variant="outlined" size="small" sx={{ width: '33%', margin: '0.5rem 1rem' }}>
-        <InputLabel id="experience-label" required>
-          Years of Professional Experience
-        </InputLabel>
-        <Select
-          labelId="experience-label"
-          id="experience"
-          name="experience"
-          value={data.experience}
-          onChange={handleChange}
-        >
-          {doctorExperience.map((curVal) => (
-            <MenuItem key={curVal} value={curVal}>
-              {curVal}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {/* Education details */}
-      <Typography variant="body2" sx={{ color: '#c1c0c0', margin: '0.4rem 0.7rem' }}>
-        Education Details
-      </Typography>
-      <FormControl variant="outlined" size="small" sx={{ width: '28%', margin: '0.5rem 0.5rem 0.5rem 1rem' }}>
-        <InputLabel id="education-label" required>
-          Education
-        </InputLabel>
-        <Select
-          labelId="education-label"
-          id="education"
-          name="education"
-          value={data.education}
-          onChange={handleChange}
-        >
-          {education.map((curVal) => (
-            <MenuItem key={curVal} value={curVal}>
-              {curVal}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <TextField
-        id="filled-basic"
-        label="Passing Year"
-        variant="outlined"
-        size="small"
-        name="passingYear"
-        sx={{ margin: '0.5rem', width: '20%' }}
-        value={data.passingYear}
-        onChange={handleChange}
-        required
+     </Box>
+     <Typography sx={{margin:'0.2rem 1rem',color:'#646464',fontSize:'0.8rem'}}>Add Certifications Information: </Typography>
+       <Box sx={{display:{xs:'initial',sm:'flex'},margin:{xs:'0.3rem 0',sm:'0.3rem'}}}>
+       <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={medicalCertificates}
+        size='small'
+        getOptionLabel={(option) => option}
+        defaultValue={[medicalCertificates[0]]}
+        filterSelectedOptions
+        sx={{width:{xs:'100%',sm:'40%',md:'30%'},margin:{xs:'0.4rem 0',sm:'0.4rem',md:'0 0.4rem'}}}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Certification Title"
+            placeholder="Certificate Title"
+          />
+        )}
       />
-
-      <TextField
-        id="filled-basic"
-        label="Institute Name"
-        variant="outlined"
-        size="small"
-        name="instituteName"
-        sx={{ margin: '0.5rem', width: '20%' }}
-        value={data.instituteName}
-        onChange={handleChange}
-        required
-      />
-
-      <TextField
-        id="filled-basic"
-        label="Institute Location"
-        variant="outlined"
-        size="small"
-        name="instituteLocation"
-        sx={{ margin: '0.5rem', width: '20%' }}
-        value={data.instituteLocation}
-        onChange={handleChange}
-        required
-      />
-
-      {/* Work Experience */}
-      <Typography variant="body2" sx={{ color: '#c1c0c0', margin: '0.4rem 0.7rem' }}>
-        Work Experience Details
-      </Typography>
-      <TextField
-        id="filled-basic"
-        label="Hospital/Clinic Name"
-        variant="outlined"
-        size="small"
-        name="workInstitute"
-        sx={{ margin: '0.5rem 0.5rem 0.5rem 1rem', width: '29%' }}
-        value={data.workInstitute}
-        onChange={handleChange}
-        required
-      />
-
-      <TextField
-        variant="outlined"
-        helperText="Start Date"
-        name="startDate"
-        size="small"
-        type="date"
-        sx={{ width: '20%', margin: '0.5rem' }}
-        onChange={handleChange}
-      />
-      <TextField
-        variant="outlined"
-        helperText="End Date"
-        name="endDate"
-        size="small"
-        type="date"
-        sx={{ width: '20%', margin: '0.5rem' }}
-        onChange={handleChange}
-      />
-
-      <FormControl variant="outlined" size="small" sx={{ width: '20%', margin: '0.5rem' }}>
-        <InputLabel id="workPeriod-label" required>
-          Work Period (Years)
-        </InputLabel>
-        <Select
-          labelId="workPeriod-label"
-          id="workPeriod"
-          name="workPeriod"
-          value={data.workPeriod}
-          onChange={handleChange}
-        >
-          {doctorExperience.map((curVal) => (
-            <MenuItem key={curVal} value={curVal}>
-              {curVal}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {/* <Add color='secondary' sx={{margin:'0.7rem 0'}}/> */}
-
-      {/* Services Offered */}
-      <Typography variant="body2" sx={{ color: '#c1c0c0', margin: '0.4rem 0.7rem' }}>
-        Services Offered In
-      </Typography>
-      
-      <TextField
-        id="filled-basic"
-        label="Offered Service - General Consultation"
-        variant="outlined"
-        size="small"
-        name="generalConsultation"
-        sx={{ margin: '0.5rem 0.5rem 0.5rem 1rem', width: '29%' }}
-        value={data.generalConsultation}
-        onChange={handleChange}
-        // You can use a textarea for multiple languages
-      />
-
-<TextField
-        id="filled-basic"
-        label="Offered Service - Surgery"
-        variant="outlined"
-        size="small"
-        name="surgery"
-        sx={{ margin: '0.5rem 0.5rem 0.5rem 1rem', width: '29%' }}
-        value={data.surgery}
-        onChange={handleChange}
-        // You can use a textarea for multiple languages
-      />
-        <TextField
-        id="filled-basic"
-        label="Offered Service - Telemedicine"
-        variant="outlined"
-        size="small"
-        name="telemedicine"
-        sx={{ margin: '0.5rem 0.5rem 0.5rem 1rem', width: '29%' }}
-        value={data.telemedicine}
-        onChange={handleChange}
-        // You can use a textarea for multiple languages
-      />
-
-      {/* Languages Spoken */}
-      <TextField
-        id="filled-basic"
-        label="Languages Spoken"
-        variant="outlined"
-        size="small"
-        name="languagesSpoken"
-        sx={{ margin: '0.5rem 0.5rem 0.5rem 1rem', width: '29%' }}
-        value={data.languagesSpoken}
-        onChange={handleChange}
-        // You can use a textarea for multiple languages
-      />
-      {/* Add more fields as needed */}
-    </Box>
+          <TextField
+          variant='outlined'
+          label='Institute Name'
+          name='instituteName'
+          size='small'
+          sx={{width:{xs:'100%',sm:'40%',md:'20%'},margin:{xs:'0.4rem 0',sm:'0.4rem',md:'0 0.4rem'}}}
+          value={certificate.instituteName}
+          onChange={handleChange}/>
+          <TextField
+          variant='outlined'
+          name='startDate'
+          helperText='Start Date'
+          size='small'
+          type='date'
+          sx={{width:{xs:'35%',sm:'22%',md:'15%'},margin:{xs:'0.4rem',sm:'0.4rem',md:'0 0.4rem'}}}
+          
+          value={certificate.startDate}
+          onChange={handleChange}/>
+          <TextField
+          variant='outlined'
+          name='endDate'
+          type='date'
+          helperText='End Date (Blank If cont.)'
+          size='small'
+          sx={{width:{xs:'35%',sm:'22%',md:'15%'},margin:{xs:'0.4rem',sm:'0.4rem',md:'0 0.4rem'}}}
+          value={certificate.endDate}
+          onChange={handleChange}/>
+          <Box>
+          <Button variant='contained' onClick={newCertificate} color='secondary' sx={{margin:{xs:'0.4rem',sm:'0.4rem',md:'0 0.4rem'},color:'white'}}>Add</Button>
+          </Box>
+       </Box>
+       {
+        allCertificates.length!==0 && allCertificates.map((value,index)=>{
+        return(
+      <Box key={index} sx={{display:'flex',justifyContent:'space-around',alignItems:'center',backgroundColor:'#30db5d1c',border:'1px solid #30db5d1c',borderRadius:'2px',margin:'0 0.4rem',width:'99%',height:'40px'}}>
+        <Typography>Title: {value.certificateTitle}</Typography>
+        <Typography>Institue: {value.instituteName}</Typography>
+        <Typography>Start Date: {value.startDate}</Typography>
+        <Typography>End Date: {value.endDate}</Typography>
+         <DeleteIcon onClick={() => handleDelete(index)} sx={{cursor:'pointer'}}color='primary'/>
+     </Box>
+        )
+        })
+       }
+  </>
   );
 };
 
-export default DoctorRegistrationForm;
+export default ProfessionalDetails;

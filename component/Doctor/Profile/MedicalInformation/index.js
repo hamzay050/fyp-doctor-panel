@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box,FormControl,InputLabel,Select,MenuItem,TextField,Typography,Button,TextareaAutosize } from "@mui/material"
 import specialties from "@/component/Doctor/SignupForm/ProfessionalDetails/specialties"
-import education from "@/component/Doctor/SignupForm/ProfessionalDetails/education"
+import education from "@/component/Doctor/SignupForm/EducationDetails/education"
 
 export default function Medical() {
   const [data, setData] = useState({
