@@ -9,6 +9,7 @@ import ProfessionalDetails from "./ProfessionalDetails";
 import EducationDetails from "./EducationDetails";
 import WorkHistory from "./WorkHistory";
 import { useState } from "react";
+import AddSchedule from "./AddSchedule";
 
 export default function SignupForm() {
   const [data, setData] = useState({
@@ -69,6 +70,7 @@ export default function SignupForm() {
           <ProfessionalDetails data={data} setData={setData}/>
           <EducationDetails/>
           <WorkHistory/>
+          <AddSchedule/>
           <Button variant="contained" onClick={showData} sx={{margin:{xs:'1rem 0.4rem' ,sm:'0.4rem',md:'0 0.4rem'}}}>Submit</Button>
         </Box>{" "}
       </Box>
