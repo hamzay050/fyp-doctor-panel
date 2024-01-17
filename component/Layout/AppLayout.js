@@ -10,11 +10,14 @@ function AppLayout({ children }) {
       <Navbar />
       {router.pathname.includes("doctor-form") ? (
         <Box width="100%" display="flex">
-          <Box width="20%">
-            <LeftSideTabs />
-          </Box>
-          <Box width="80%">{children}</Box>
+        <Box width="20%" style={{ height: '100%' }}>
+          <LeftSideTabs />
         </Box>
+        <Box width="80%" style={{ height: '100%' }}>
+          {children}
+        </Box>
+      </Box>
+      
       ) : (
         <>{children}</>
       )}

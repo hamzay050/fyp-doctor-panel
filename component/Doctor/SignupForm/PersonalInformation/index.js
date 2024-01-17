@@ -36,13 +36,11 @@ export default function PersonalInformation() {
   });
   return (
     <>
-      <Typography variant="body2" sx={{ margin: "0.4rem", color: "#646464" }}>
+      <Typography variant="body2" sx={{ margin: "1rem 0", color: "#646464" }}>
         Personal Information:{" "}
       </Typography>
       <Box
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
           margin: { xs: "0rem", sm: "0.4rem" },
         }}
       >
@@ -56,7 +54,7 @@ export default function PersonalInformation() {
             setData({ ...data, firstName: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "20%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
@@ -70,7 +68,7 @@ export default function PersonalInformation() {
             setData({ ...data, lastName: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "20%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
@@ -84,7 +82,7 @@ export default function PersonalInformation() {
             setData({ ...data, nationalIdentityNumber: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "20%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
@@ -95,11 +93,12 @@ export default function PersonalInformation() {
           onChange={(event, newAlignment) => {
             setData({ ...data, gender: newAlignment });
           }}
-          sx={{ margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" } }}
+          sx={{ margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" } }}
         >
           <ToggleButton
             value="male"
             size="small"
+            color="secondary"
             sx={{ width: { xs: "100px", sm: "130px", lg: "170px" } }}
           >
             Male
@@ -107,6 +106,7 @@ export default function PersonalInformation() {
           <ToggleButton
             value="female"
             size="small"
+            color="secondary"
             sx={{ width: { xs: "100px", sm: "130px", lg: "170px" } }}
           >
             Female
