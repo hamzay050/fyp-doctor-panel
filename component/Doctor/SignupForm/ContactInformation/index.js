@@ -30,10 +30,8 @@ export default function ContactInformation() {
   });
   return (
     <>
-      <Typography variant="body2" sx={{ margin: "0.4rem", color: "#646464" }}>
-        Contact Information:{" "}
-      </Typography>
-      <Box sx={{ margin: { xs: "0rem", sm: "0.4rem" } }}>
+
+      <Box sx={{ margin: { xs: "0rem", sm: "1rem 0" } }}>
         <TextField
           variant="outlined"
           label="Email"
@@ -45,7 +43,7 @@ export default function ContactInformation() {
             setData({ ...data, email: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "20%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
@@ -59,38 +57,40 @@ export default function ContactInformation() {
             setData({ ...data, contactNumber: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "20%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
         <TextField
           variant="outlined"
-          label="Address Line"
-          name="addressLine"
+          label="Street Address"
+          name="street Address"
           size="small"
-          value={data.addressLine}
+          value={data.streetAddress}
           onChange={(e) => {
-            setData({ ...data, addressLine: e.target.value });
+            setData({ ...data, streetAddress: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "20%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
+        <Box sx={{margin:'1rem 0'}}>
         <TextField
           variant="outlined"
-          label="Street Number"
-          name="streetNumber"
+          label="Street Address II"
+          name="streetAddress2"
           size="small"
-          value={data.streetNumber}
+          value={data.streetAddress2}
           onChange={(e) => {
-            setData({ ...data, streetNumber: e.target.value });
+            setData({ ...data, streetAddress2: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "14%" },
+            width: { xs: "100%", sm: "40%", md: "30%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
+
         <TextField
           variant="outlined"
           label="City"
@@ -101,10 +101,40 @@ export default function ContactInformation() {
             setData({ ...data, city: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "13%" },
+            width: { xs: "100%", sm: "40%", md: "19%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
           }}
         />
+        <TextField
+          variant="outlined"
+          label="State"
+          name="state"
+          size="small"
+          value={data.state}
+          onChange={(e) => {
+            setData({ ...data, state: e.target.value });
+          }}
+          sx={{
+            width: { xs: "100%", sm: "40%", md: "19.5%" },
+            margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
+          }}
+        />
+        <TextField
+          variant="outlined"
+          label="Country"
+          name="country"
+          size="small"
+          value={data.country}
+          onChange={(e) => {
+            setData({ ...data, country: e.target.value });
+          }}
+          sx={{
+            width: { xs: "100%", sm: "40%", md: "20%" },
+            margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
+          }}
+        />
+        </Box>
+
       </Box>
     </>
   );

@@ -6,7 +6,6 @@ const PateintRecords = () => {
   return (
 
     <div>
-        <Navbar/>
         <PatientRecords />
         </div>
   )

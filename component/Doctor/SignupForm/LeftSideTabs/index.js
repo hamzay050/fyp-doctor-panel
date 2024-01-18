@@ -21,7 +21,7 @@ export default function VerticalTabs() {
   const handleChange = (event, newValue) => {
     console.log("🚀 ~ handleChange ~ newValue:", newValue);
     setValue(newValue);
-    router.push(`/doctor-signup/doctor-form/${newValue}`);
+    router.push(`/doctor/doctor-form/${newValue}`);
   };
   useEffect(() => {
     if (router.pathname.includes("personal-information"))

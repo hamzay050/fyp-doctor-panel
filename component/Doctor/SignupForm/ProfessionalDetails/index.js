@@ -7,7 +7,7 @@ import {
   Button
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import medicalCertificates from './certificate';
+import medicalCertificates from '../Certifications/certificate';
 import speciality from './specialties';
 const ProfessionalDetails = ({data,setData}) => {
   const [allCertificates, setAllCertificates] = useState([])
