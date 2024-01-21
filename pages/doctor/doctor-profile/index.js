@@ -1,12 +1,12 @@
-import Profile from "@/component/Doctor/Profile";
-import React from "react";
-import SecurePage from "@/component/Doctor/SecurePage";
-const index = (records) => {
-  return (
-    <SecurePage>
-      <Profile />
-    </SecurePage>
-  );
-};
+import React, { useEffect } from "react";
+import Docform from "@/component/Doctor/SignupForm";
+import { useRouter } from "next/router";
 
-export default index;
+export default function index() {
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/doctor/doctor-profile/personal-information");
+  }, []);
+
+  return <>No Page Found</>;
+}

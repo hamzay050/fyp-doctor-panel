@@ -1,68 +1,76 @@
-import React, { useState } from "react";
+import { AppContext } from "@/context/appContext";
+import { POST } from "@/services/httpClient";
 import {
   Box,
   Grid,
   Typography,
   TextField,
   Button,
-  Snackbar,
-  Alert,
-  IconButton,
+  Checkbox,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 
-const Login = () => {
-  const [open, setOpen] = useState( false);
-    
+export default function Login() {
+  const router = useRouter();
+  const { isLoading, setIsLoading, setSnackbarState } = useContext(AppContext);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const [userCredentials, setUserCredentials] = useState({
+    email: "",
+    password: "",
+  });
+  const handleLogin = async () => {
+    setIsLoading(true);
+    const params = {
+      email: userCredentials.email,
+      password: userCredentials.password,
+    };
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+    try {
+      const response = await POST("/auth/login", params);
+
+      console.log(response);
+
+      if (!response.error) {
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        router.push("/doctor/patient-records");
+      } else {
+        console.log("Login failed");
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Login failed",
+        });
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: index.js:46 ~ handleLogin ~ error:", error);
+      console.log("An error occurred:", error);
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "An error occurred",
+      });
     }
-
-    setOpen(false);
+    setIsLoading(false);
   };
-
-  const action = (
-    <>
-      <Button color="secondary" size="small" onClick={handleClose}>
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </>
-  );
-
   return (
     <>
       <Box>
         <Grid container>
-          <Grid item xs={12} sm={12} lg={6}>
+          <Grid item xs={6}>
             <Image
-              src="/Assests/try4.jpg"
+              src="/Assests/plogin.jpg"
               width={650}
               height={610}
               alt="Login Image"
-              style={{ margin: "0.3rem", borderRadius: "4px",width:'90%',height:'90%'}}
+              style={{ margin: "0.3rem", borderRadius: "4px" }}
             />
           </Grid>
           <Grid
             item
-            xs={12}
-            sm={12}
-            lg={6}
+            xs={6}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -70,7 +78,7 @@ const Login = () => {
           >
             <Typography
               variant="h3"
-              sx={{ margin: "2rem 0 1rem 0", color: "black"}}
+              sx={{ margin: "2rem 0 1rem 0", color: "black" }}
             >
               Login
             </Typography>
@@ -78,49 +86,46 @@ const Login = () => {
               id="outlined-basic"
               label="Email"
               variant="standard"
+              type="email"
               required
-              sx={{ width: "50%", margin: "1.1rem" }}
+              sx={{ width: "350px", margin: "1.1rem" }}
+              onChange={(e) => {
+                setUserCredentials({
+                  ...userCredentials,
+                  email: e.target.value,
+                });
+              }}
             />
             <TextField
               id="outlined-basic"
               label="Password"
               variant="standard"
+              type="password"
               required
-              sx={{ width: "50%", margin: "1.1rem" }}
+              onChange={(e) => {
+                setUserCredentials({
+                  ...userCredentials,
+                  password: e.target.value,
+                });
+              }}
+              sx={{ width: "350px", margin: "1.1rem" }}
             />
 
             <Link href="" style={{ margin: "0.5rem", color: "black" }}>
               Forget Password?
             </Link>
-            <Link href="/dhome" style={{ textDecoration: "none" }}>
-            <div>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                // message="login Succcessfully"
-                action={action}
-                
+            <Link href="" style={{ textDecoration: "none" }}>
+              <Button
+                onClick={handleLogin}
+                variant="contained"
+                sx={{ width: "350px", margin: "2rem 0", fontSize: "1.098rem" }}
               >
-                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Login successfully 
-        </Alert>
-              </Snackbar>
-            </div>
-              <Button onClick={handleClick} color="primary" size="small" 
-                  variant="contained"
-                  sx={{ width: {xs:'150px',sm:'300px'}, margin: "2rem 0", fontSize: "1.098rem" }}
-                >Login</Button>
-             
-            
-              
-               
-                
-              </Link> 
+                Login
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Box>
     </>
   );
-};
-export default Login;
+}

@@ -6,22 +6,18 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
-// function a11yProps(index) {
-//   return {
-//     id: `vertical-tab-${index}`,
-//     "aria-controls": `vertical-tabpanel-${index}`,
-//   };
-// }
-
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 export default function VerticalTabs() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const router = useRouter();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     console.log("🚀 ~ handleChange ~ newValue:", newValue);
     setValue(newValue);
-    router.push(`/doctor/doctor-form/${newValue}`);
+    router.push(`/doctor/doctor-profile/${newValue}`);
   };
   useEffect(() => {
     if (router.pathname.includes("personal-information"))
@@ -37,16 +33,16 @@ export default function VerticalTabs() {
       sx={{
         // flexGrow: 1,
 
-        width: "250px",
-        height: "100%",
+        width: "100%",
+
         display: "flex",
 
-        justifyContent: "flex-start",
+        justifyContent: "center",
         alignItems: "center",
       }}
     >
       <Tabs
-        orientation="vertical"
+        orientation={isSmallScreen ? "horizontal" : "vertical"}
         variant="scrollable"
         value={value}
         onChange={handleChange}

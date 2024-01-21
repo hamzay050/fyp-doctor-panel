@@ -1,7 +1,10 @@
 import AppLayout from "@/component/Layout/AppLayout";
+import GlobalSnackbar from "@/component/SnackBar";
+import AppContextProvider from "@/context/appContext";
+import ProfileContextProvider from "@/context/profileContext";
 import "@/styles/globals.css";
-import { createTheme, colors, ThemeProvider } from "@mui/material";
-
+import { createTheme, colors, ThemeProvider, CssBaseline } from "@mui/material";
+import SimpleBackdrop from "@/component/SimpleBackdrop";
 export default function App({ Component, pageProps }) {
   const theme = createTheme({
     palette: {
@@ -16,9 +19,16 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppLayout>
-        <Component {...pageProps} />
-      </AppLayout>
+      <CssBaseline />
+      <AppContextProvider>
+        <GlobalSnackbar />
+        <SimpleBackdrop />
+        <ProfileContextProvider>
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        </ProfileContextProvider>
+      </AppContextProvider>
     </ThemeProvider>
   );
 }

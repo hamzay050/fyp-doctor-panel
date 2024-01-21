@@ -3,7 +3,15 @@ import Switch from "@mui/material/Switch";
 import { useState } from "react";
 
 export default function AddSchedule() {
-  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   const [loading, setLoading] = useState({
     isMonday: false,
@@ -24,12 +32,17 @@ export default function AddSchedule() {
 
   console.log(loading);
 
-  const handleClick = () => {
-
-  };
+  const handleClick = () => {};
 
   return (
-    <Box sx={{ display: "flex", flexDirection:'column',alignItems:'center',margin:'1rem 0 2rem 0' }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "1rem 0 2rem 0",
+      }}
+    >
       {weekdays.map((value, index) => (
         <Box
           key={index}
@@ -42,19 +55,65 @@ export default function AddSchedule() {
             borderRadius: "2px",
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Typography sx={{ padding: "0 0.3rem",fontWeight:500 }}>{value}</Typography>
-            <Switch checked={loading[`is${value}`]} onChange={() => handleSwitchChange(`is${value}`)} sx={{ margin: "0 0.2rem" }} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ padding: "0 0.3rem", fontWeight: 500 }}>
+              {value}
+            </Typography>
+            <Switch
+              checked={loading[`is${value}`]}
+              onChange={() => handleSwitchChange(`is${value}`)}
+              sx={{ margin: "0 0.2rem" }}
+            />
           </Box>
           <Box sx={{ borderTop: "1px solid #d7c5c54f" }}>
             {loading[`is${value}`] && (
-              <Box sx={{ margin: "2rem 1rem", display: "flex", flexDirection: "column" }}>
-                <Box sx={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                  <TextField variant="outlined" size="small" type="time" helperText="Start Time" />
-                  <TextField variant="outlined" size="small" type="time" helperText="End Time" />
+              <Box
+                sx={{
+                  margin: "2rem 1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="time"
+                    helperText="Start Time"
+                  />
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="time"
+                    helperText="End Time"
+                  />
                 </Box>
-                <Box sx={{ margin: "1.2rem 0 0 0",display:'flex',justifyContent:'center' }}>
-                  <Button color="secondary" size="small" sx={{ color: "white",width:'55%' }} variant="contained" onClick={handleClick}>
+                <Box
+                  sx={{
+                    margin: "1.2rem 0 0 0",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    color="secondary"
+                    size="small"
+                    sx={{ color: "white", width: "55%" }}
+                    variant="contained"
+                    onClick={handleClick}
+                  >
                     Save
                   </Button>
                 </Box>
