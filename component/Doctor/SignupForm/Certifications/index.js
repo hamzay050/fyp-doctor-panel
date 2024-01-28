@@ -1,15 +1,19 @@
 import { Box, Typography, Button, TextField, Autocomplete } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
 import medicalCertificates from "./certificate";
+import { ProfileContext } from "@/context/profileContext";
+import { GET, POST, UPDATE } from "@/services/httpClient";
+import {useState,useEffect,useContext} from "react"
 
 function Certifications() {
   const [allCertificates, setAllCertificates] = useState([]);
+  const { profileData } = useContext(ProfileContext);
   const [certificate, setCertificate] = useState({
     title: '',
     institute: '',
     startDate: '',
     endDate: '',
+    clientId: profileData._id,
   });
 
   const handleChange = (e) => {
@@ -17,9 +21,19 @@ function Certifications() {
     setCertificate((prev) => ({ ...prev, [name]: value }));
   };
 
-  const newCertificate = () => {
-    if (certificate.title !== '' && certificate.institute !== '' && certificate.startDate !== '' && certificate.endDate !== '') {
-      setAllCertificates([...allCertificates, certificate]);
+  const newCertificate = async () => {
+    if (
+      certificate.title !== "" &&
+      certificate.institute !== "" &&
+      certificate.startDate !== "" &&
+      certificate.endDate !== ""
+    ) {
+      try {
+        const response = await POST(`/certificate`, certificate);
+      } catch (error) {
+        console.log("🚀 ~ handleUpdate ~ error:", error);
+      }
+      // setAllCertificates([...allCertificates, certificate]);
     } else {
       console.log("ALL FIELDS ARE NECESSARY");
     }
@@ -30,6 +44,21 @@ function Certifications() {
     updatedCertificates.splice(recordId, 1);
     setAllCertificates(updatedCertificates);
   };
+
+  async function fetchRecords() {
+    try {
+      const response = await GET(`/certificate/${profileData._id}`);
+      setAllCertificates(response);
+      console.log(response)
+
+      console.log("🚀 ~ fetchRecords ~ response:", response);
+    } catch (error) {
+      console.log("🚀 ~ fetchRecords ~ error:", error);
+    }
+  }
+  useEffect(() => {
+    if (profileData._id) fetchRecords();
+  }, [profileData._id]);
   return (
     <>
        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem 0 0 0' }}>
@@ -83,7 +112,7 @@ function Certifications() {
           Add
         </Button>
       </Box>
-
+{/* 
       {allCertificates.length !== 0 &&
         allCertificates.map((value, index) => (
           <Box
@@ -113,7 +142,7 @@ function Certifications() {
             <DeleteIcon onClick={() => handleDelete(index)} sx={{ cursor: 'pointer' }} color="primary" />
             </Box>
           </Box>
-        ))}
+        ))} */}
     </Box>
     </>
   )

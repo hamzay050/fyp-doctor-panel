@@ -1,15 +1,20 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
+import {useState,useEffect,useContext} from "react"
+import { ProfileContext } from "@/context/profileContext";
+import { GET, POST, UPDATE } from "@/services/httpClient";
+
 
 export default function WorkHistory() {
   const [allWorks, setAllWorks] = useState([]);
+  const { profileData } = useContext(ProfileContext);
   const [work, setWork] = useState({
     title: "",
     institute: "",
     startDate: "",
     endDate: "",
     role: "",
+    clientId: profileData._id,
   });
 
   const handleChange = (e) => {
@@ -17,16 +22,19 @@ export default function WorkHistory() {
     setWork((prev) => ({ ...prev, [name]: value }));
   };
 
-  const newWork = () => {
-    if (work.title !== "" && work.institute !== "" && work.startDate !== "" && work.endDate !== "") {
-      setAllWorks([...allWorks, work]);
-      setWork({
-        title: "",
-        institute: "",
-        startDate: "",
-        endDate: "",
-        role: "",
-      });
+  const newWork = async () => {
+    if (
+      work.title !== "" &&
+      work.institute !== "" &&
+      work.startDate !== "" &&
+      work.endDate !== ""
+    ) {
+      try {
+        const response = await POST(`/jobs`, work);
+      } catch (error) {
+        console.log("🚀 ~ handleUpdate ~ error:", error);
+      }
+      // setAllworks([...allworks, work]);
     } else {
       console.log("ALL FIELDS ARE NECESSARY");
     }
@@ -37,6 +45,21 @@ export default function WorkHistory() {
     updatedWorks.splice(recordId, 1);
     setAllWorks(updatedWorks);
   };
+
+  async function fetchRecords() {
+    try {
+      const response = await GET(`/jobs/${profileData._id}`);
+      setAllWorks(response);
+      console.log(response)
+
+      console.log("🚀 ~ fetchRecords ~ response:", response);
+    } catch (error) {
+      console.log("🚀 ~ fetchRecords ~ error:", error);
+    }
+  }
+  useEffect(() => {
+    if (profileData._id) fetchRecords();
+  }, [profileData._id]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "2rem 0 0 0" }}>
@@ -102,7 +125,7 @@ export default function WorkHistory() {
         </Button>
       </Box>
 
-      {allWorks.length !== 0 &&
+      {/* {allWorks.length !== 0 &&
         allWorks.map((value, index) => (
           <Box
             key={index}
@@ -130,7 +153,7 @@ export default function WorkHistory() {
             </Box>
             <DeleteIcon onClick={() => handleDelete(index)} sx={{ cursor: "pointer" }} color="primary" />
           </Box>
-        ))}
+        ))} */}
     </Box>
   );
 }

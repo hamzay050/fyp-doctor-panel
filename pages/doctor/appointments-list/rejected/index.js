@@ -1,14 +1,16 @@
 import AppointmentsList from '@/component/Doctor/AppointmentsList'
 import RejectedCard from '@/component/Doctor/RejectedCard'
+import PrivateRoute from '@/component/Doctor/SecurePage'
 import React from 'react'
 
 const index = () => {
   return (
-    <div>
+    <PrivateRoute>
+
     <AppointmentsList/>
     <RejectedCard/>
 
-    </div>
+    </PrivateRoute>
   )
 }
 
