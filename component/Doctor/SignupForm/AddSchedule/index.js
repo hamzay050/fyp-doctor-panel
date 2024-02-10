@@ -21,6 +21,20 @@ export default function AddSchedule() {
     isFriday: false,
     isSaturday: false,
     isSunday: false,
+    mondayStartTime: "",
+    mondayEndTime: "",
+    tuesdayStartTime: "",
+    tuesdayEndTime: "",
+    wednesdayStartTime: "",
+    wednesdayEndTime: "",
+    thursdayStartTime: "",
+    thursdayEndTime: "",
+    fridayStartTime: "",
+    fridayEndTime: "",
+    saturdayStartTime: "",
+    saturdayEndTime: "",
+    sundayStartTime: "",
+    sundayEndTime: "",
   });
 
   const handleSwitchChange = (day) => {
@@ -92,12 +106,16 @@ export default function AddSchedule() {
                     size="small"
                     type="time"
                     helperText="Start Time"
+                    value={loading[`${value.toLowerCase()}StartTime`]}
+                    onChange={(e)=>setLoading({...loading,[`${value.toLowerCase()}StartTime`]:e.target.value })}
                   />
                   <TextField
                     variant="outlined"
                     size="small"
                     type="time"
                     helperText="End Time"
+                    value={loading[`${value.toLowerCase()}EndTime`]}
+                    onChange={(e)=>setLoading({...loading,[`${value.toLowerCase()}EndTime`]:e.target.value })}
                   />
                 </Box>
                 <Box
@@ -113,6 +131,7 @@ export default function AddSchedule() {
                     sx={{ color: "white", width: "55%" }}
                     variant="contained"
                     onClick={handleClick}
+                    disabled={loading[`${value.toLowerCase()}StartTime`] === "" || loading[`${value.toLowerCase()}EndTime`] === ""}
                   >
                     Save
                   </Button>

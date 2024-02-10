@@ -35,8 +35,8 @@ export default function PrescribeMedicine() {
     }
   return (
     <>
-    <Box m='1.5rem 0 0 0' sx={{backgroundColor:'white',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-    <TextField
+    <Box m='1.5rem 0 0 0' sx={{backgroundColor:'white',display:'flex',justifyContent:'flex-end',alignItems:'center'}}>
+    {/* <TextField
         variant="outlined"
         id="input-with-icon-textfield"
         sx={{width:'340px',margin:'0 1.5rem',borderColor:'white'}}
@@ -48,7 +48,7 @@ export default function PrescribeMedicine() {
             </InputAdornment>
           ),
         }}
-      />
+      /> */}
       <Button onClick={handleOpen} variant="contained" sx={{height:'40px',margin:'0 2rem'}}>Add Medicine</Button>
     </Box>
       <Grid container>

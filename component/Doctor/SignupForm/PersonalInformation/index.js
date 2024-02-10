@@ -156,7 +156,7 @@ export default function PersonalInformation() {
           }}
           sx={{
             width: { xs: "100%", sm: "40%", md: "30%" },
-            margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
+            margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
           }}
         />
         <Box sx={{ margin: { xs: "0rem", sm: "1rem 0" } }}>

@@ -3,10 +3,12 @@ import PersonalInformation from "@/component/Doctor/SignupForm/PersonalInformati
 import Avatar from "@/component/Doctor/SignupForm/Avatar";
 import ContactInformation from "@/component/Doctor/SignupForm/ContactInformation";
 import { Container, Box, Divider, Button } from "@mui/material";
+import PrivateRoute from "@/component/Doctor/SecurePage";
 
 export default function index() {
   return (
     <>
+    <PrivateRoute>
       <Container
         maxWidth="md"
         sx={{
@@ -23,6 +25,7 @@ export default function index() {
         </Box>
         {/* <ContactInformation /> */}
       </Container>
+    </PrivateRoute>
     </>
   );
 }

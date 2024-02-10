@@ -225,9 +225,7 @@ const Navbar = () => {
                   />
                   Set Availibility
                 </Link>
-                <Button onClick={handleLogout} startIcon={<LogoutIcon />}>
-                  <Typography>Logout</Typography>
-                </Button>{" "}
+                <Button onClick={handleLogout} color="secondary" sx={{ margin: "0rem 1rem" }} startIcon={<LogoutIcon />}> Logout</Button>{" "}
               </Box>
             )}
             <Button
