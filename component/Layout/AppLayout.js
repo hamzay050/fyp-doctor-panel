@@ -7,7 +7,7 @@ function AppLayout({ children }) {
   const router = useRouter();
   return (
     <>
-      <Navbar />
+      {router.pathname.includes("doctor/") && <Navbar/>}
       {router.pathname.includes("doctor-profile") ? (
         <Box width="100%">
           <Grid container>

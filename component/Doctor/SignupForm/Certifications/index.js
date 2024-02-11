@@ -15,6 +15,7 @@ function Certifications() {
     endDate: '',
     clientId: profileData._id,
   });
+  console.log(profileData._id)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -112,7 +113,7 @@ function Certifications() {
           Add
         </Button>
       </Box>
-{/* 
+
       {allCertificates.length !== 0 &&
         allCertificates.map((value, index) => (
           <Box
@@ -142,7 +143,7 @@ function Certifications() {
             <DeleteIcon onClick={() => handleDelete(index)} sx={{ cursor: 'pointer' }} color="primary" />
             </Box>
           </Box>
-        ))} */}
+        ))}
     </Box>
     </>
   )

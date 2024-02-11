@@ -125,7 +125,7 @@ export default function WorkHistory() {
         </Button>
       </Box>
 
-      {/* {allWorks.length !== 0 &&
+      {allWorks.length !== 0 &&
         allWorks.map((value, index) => (
           <Box
             key={index}
@@ -153,7 +153,7 @@ export default function WorkHistory() {
             </Box>
             <DeleteIcon onClick={() => handleDelete(index)} sx={{ cursor: "pointer" }} color="primary" />
           </Box>
-        ))} */}
+        ))}
     </Box>
   );
 }
