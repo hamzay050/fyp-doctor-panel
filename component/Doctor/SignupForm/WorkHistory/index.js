@@ -1,13 +1,13 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {useState,useEffect,useContext} from "react"
+import { useState, useEffect, useContext } from "react";
 import { ProfileContext } from "@/context/profileContext";
 import { GET, POST, UPDATE } from "@/services/httpClient";
-
 
 export default function WorkHistory() {
   const [allWorks, setAllWorks] = useState([]);
   const { profileData } = useContext(ProfileContext);
+
   const [work, setWork] = useState({
     title: "",
     institute: "",
@@ -31,6 +31,7 @@ export default function WorkHistory() {
     ) {
       try {
         const response = await POST(`/jobs`, work);
+        console.log("🚀 ~ newWork ~ work:", work);
       } catch (error) {
         console.log("🚀 ~ handleUpdate ~ error:", error);
       }
@@ -50,7 +51,7 @@ export default function WorkHistory() {
     try {
       const response = await GET(`/jobs/${profileData._id}`);
       setAllWorks(response);
-      console.log(response)
+      console.log(response);
 
       console.log("🚀 ~ fetchRecords ~ response:", response);
     } catch (error) {
@@ -62,7 +63,14 @@ export default function WorkHistory() {
   }, [profileData._id]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "2rem 0 0 0" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "2rem 0 0 0",
+      }}
+    >
       <TextField
         variant="outlined"
         name="title"
@@ -70,10 +78,20 @@ export default function WorkHistory() {
         size="small"
         value={work.title}
         onChange={handleChange}
-        sx={{ width: { xs: "35%", sm: "22%", md: "80%" }, margin: { xs: "0.4rem", sm: "0.4rem", md: "0" } }}
+        sx={{
+          width: { xs: "35%", sm: "22%", md: "80%" },
+          margin: { xs: "0.4rem", sm: "0.4rem", md: "0" },
+        }}
       />
 
-      <Box sx={{ display: "flex", justifyContent: "space-between", width: "80%", margin: "1rem 0" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "80%",
+          margin: "1rem 0",
+        }}
+      >
         <TextField
           variant="outlined"
           name="startDate"
@@ -82,7 +100,10 @@ export default function WorkHistory() {
           value={work.startDate}
           onChange={handleChange}
           type="date"
-          sx={{ width: { xs: "35%", sm: "22%", md: "40%" }, margin: { xs: "0.4rem", sm: "0.4rem", md: "0" } }}
+          sx={{
+            width: { xs: "35%", sm: "22%", md: "40%" },
+            margin: { xs: "0.4rem", sm: "0.4rem", md: "0" },
+          }}
         />
         <TextField
           variant="outlined"
@@ -92,7 +113,10 @@ export default function WorkHistory() {
           onChange={handleChange}
           helperText="End Date (Blank If cont.)"
           size="small"
-          sx={{ width: { xs: "35%", sm: "22%", md: "40%" }, margin: { xs: "0.4rem", sm: "0.4rem", md: "0" } }}
+          sx={{
+            width: { xs: "35%", sm: "22%", md: "40%" },
+            margin: { xs: "0.4rem", sm: "0.4rem", md: "0" },
+          }}
         />
       </Box>
 
@@ -103,7 +127,10 @@ export default function WorkHistory() {
         value={work.institute}
         onChange={handleChange}
         size="small"
-        sx={{ width: { xs: "100%", sm: "40%", md: "80%" }, margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" } }}
+        sx={{
+          width: { xs: "100%", sm: "40%", md: "80%" },
+          margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
+        }}
       />
 
       <TextField
@@ -116,17 +143,33 @@ export default function WorkHistory() {
         value={work.role}
         onChange={handleChange}
         size="small"
-        sx={{ width: { xs: "100%", sm: "40%", md: "80%" }, margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" } }}
+        sx={{
+          width: { xs: "100%", sm: "40%", md: "80%" },
+          margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
+        }}
       />
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", width: "80%", margin: "1rem 0" }}>
-        <Button variant="contained" size="small" onClick={newWork} color="secondary" sx={{width:'15%', color: "white" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          width: "80%",
+          margin: "1rem 0",
+        }}
+      >
+        <Button
+          variant="contained"
+          size="small"
+          onClick={newWork}
+          color="secondary"
+          sx={{ width: "15%", color: "white" }}
+        >
           Add
         </Button>
       </Box>
 
-      {allWorks.length !== 0 &&
-        allWorks.map((value, index) => (
+      {allWorks?.length !== 0 &&
+        allWorks?.map((value, index) => (
           <Box
             key={index}
             sx={{
@@ -144,14 +187,23 @@ export default function WorkHistory() {
           >
             <Box>
               <Typography>Title: {value.title}</Typography>
-              <Box sx={{display:'flex'}}>
-              <Typography sx={{marginRight:'2rem'}}>Start Date: {value.startDate}</Typography>
-              <Typography>End Date: {value.endDate}</Typography>
+              <Box sx={{ display: "flex" }}>
+                <Typography sx={{ marginRight: "2rem" }}>
+                  Start Date:{" "}
+                  {value.startDate
+                    ? new Date(value.startDate).toLocaleDateString()
+                    : "no record"}
+                </Typography>
+                <Typography>End Date: {value.endDate}</Typography>
               </Box>
               <Typography>Institute: {value.institute}</Typography>
               <Typography>Role: {value.role}</Typography>
             </Box>
-            <DeleteIcon onClick={() => handleDelete(index)} sx={{ cursor: "pointer" }} color="primary" />
+            <DeleteIcon
+              onClick={() => handleDelete(index)}
+              sx={{ cursor: "pointer" }}
+              color="primary"
+            />
           </Box>
         ))}
     </Box>

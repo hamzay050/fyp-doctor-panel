@@ -1,10 +1,20 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import jwt from "jsonwebtoken";
 import cookies from "cookie";
 import { GET } from "@/services/httpClient";
+import { AppContext } from "./appContext";
+import { useRouter } from "next/router";
 export const ProfileContext = createContext();
 
 const ProfileContextProvider = ({ children }) => {
+  const router = useRouter();
+  const { setSnackbarState } = useContext(AppContext);
   const [userData, setUserData] = useState(false);
   const [profileData, setProfileData] = useState(false);
 
@@ -14,17 +24,25 @@ const ProfileContextProvider = ({ children }) => {
     const cookiesData = cookies.parse(document.cookie);
     const token = cookiesData["accessToken"];
 
-    if (token) {
-      const decoded = jwt.verify(token, "mysecret%$sha256/!alpha$%$bang.etae");
-      console.log(
-        "🚀 ~ file: profileContext.js:18 ~ useEffect ~ decoded:",
-        decoded
-      );
+    try {
+      if (token) {
+        const decoded = jwt.verify(
+          token,
+          "mysecret%$sha256/!alpha$%$bang.etae"
+        );
 
-      if (decoded) {
-        setUserData(decoded);
-        return;
+        if (decoded) {
+          setUserData(decoded);
+          return;
+        }
       }
+    } catch (error) {
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Token Validation Failed",
+      });
+      router.push("/");
     }
   }, [isUpdated]);
 
