@@ -1,11 +1,13 @@
 // components/PrivateRoute.js
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
 import cookies from "cookie";
+import { ProfileContext } from "@/context/profileContext";
 
 const PrivateRoute = ({ children }) => {
+  const { profileData } = useContext(ProfileContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const PrivateRoute = ({ children }) => {
     }
   }, [router]);
 
-  return children;
+  return profileData ? children : null;
 };
 
 export default PrivateRoute;
