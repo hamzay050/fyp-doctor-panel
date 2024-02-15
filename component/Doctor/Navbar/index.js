@@ -96,7 +96,7 @@ const Navbar = () => {
                 HOME
               </Button>
             </Link>
-            <Link
+            {/* <Link
               href="/doctor/medicine"
               style={{ margin: "0 0.7rem", textDecoration: "none" }}
             >
@@ -110,7 +110,7 @@ const Navbar = () => {
               >
                 Medicine
               </Button>{" "}
-            </Link>
+            </Link> */}
             <Link
               href="/doctor/patient-records"
               style={{ margin: "0 0.7rem", textDecoration: "none" }}
@@ -195,7 +195,8 @@ const Navbar = () => {
                   href="/doctor/doctor-profile"
                   style={{
                     textDecoration: "none",
-                    fontSize: "1rem",
+                    fontSize: "12px",
+                    // fontWeight:"500",
                     margin: "0.7rem",
                     color: "black",
                     display: "flex",
@@ -212,7 +213,8 @@ const Navbar = () => {
                   href="/doctor/avialibility"
                   style={{
                     textDecoration: "none",
-                    fontSize: "1rem",
+                    fontSize: "12px",
+                    // fontWeight:"500",
                     margin: "0.7rem",
                     color: "black",
                     display: "flex",
@@ -225,7 +227,12 @@ const Navbar = () => {
                   />
                   Set Availibility
                 </Link>
-                <Button onClick={handleLogout} color="secondary" sx={{ margin: "0rem 1rem" }} startIcon={<LogoutIcon />}> Logout</Button>{" "}
+                <Button onClick={handleLogout} color="secondary" sx={{ margin: "0rem 1rem", }} startIcon={<LogoutIcon />}>
+                      <Typography variant="body2" sx={{ fontSize: "12px",
+                    // fontWeight:"500"
+                    }}>  Logout</Typography>
+                      
+                       </Button>{" "}
               </Box>
             )}
             <Button

@@ -43,6 +43,7 @@ export default function Profile() {
             <Tabs
               orientation="vertical"
               variant="scrollable"
+             
               value={value}
               onChange={handleChange}
             >
@@ -50,6 +51,7 @@ export default function Profile() {
                 label="Personal"
                 icon={<PersonIcon />}
                 sx={{
+                 
                   fontSize: "0.8rem",
                   flexDirection: "row",
                   alignItems: "center",

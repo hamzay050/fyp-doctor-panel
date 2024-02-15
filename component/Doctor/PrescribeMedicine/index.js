@@ -4,6 +4,7 @@ import {
   TextField,
   InputAdornment,
   Button,
+  Tooltip,
   Typography,
   Divider,
   Modal,
@@ -16,14 +17,16 @@ import AddMedicine from "./AddMedicine";
 import PatientDetail from "./PatientDetail";
 import ClearIcon from "@mui/icons-material/Clear";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import PrintIcon from '@mui/icons-material/Print';
+import DoneIcon from '@mui/icons-material/Done';
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 780,
-  height: 550,
+  width: 680,
+  height: 480,
   bgcolor: "background.paper",
   boxShadow: 24,
   border: "1px solid #f1d4a975",
@@ -67,7 +70,7 @@ export default function PrescribeMedicine() {
         }}
       /> */}
         <Button size="small" onClick={handleOpen} variant="contained">
-          <Typography textTransform="none" fontSize="14px">
+          <Typography textTransform="none"  fontSize="14px" >
             Add Medicine
           </Typography>
         </Button>
@@ -116,7 +119,36 @@ export default function PrescribeMedicine() {
             >
               Medicine Prescribed
             </Typography>
-            <SearchIcon sx={{ color: "white", margin: "0 1rem" }} />
+            <Box display="flex" justifyContent="flex-start" alignItems="center" >
+             <Tooltip title="Finalize">
+            {/* <Button color="secondary"
+              sx={{
+                // color:'#fff',
+                 margin: "0 1rem"
+              }}
+              variant="outlined"
+              size="small"> */}
+               
+            <Typography textTransform="none" fontSize="14px" color="white" >
+            <Box display="flex" alignItems="center" justifyContent="space-evenly">
+            Mark as Completed
+           
+            </Box>
+          </Typography>
+            
+              {/* </Button> */}
+              </Tooltip>
+              <Tooltip title="Prescribed">
+            <DoneIcon   fontSize='small' sx={{marginLeft:"5px",color:"white"}} />
+            </Tooltip>
+                            <Tooltip title="View">
+
+              <RemoveRedEyeIcon sx={{ color: "white", margin: "0 1rem" }} />
+              </Tooltip>
+              <Tooltip title="Print">
+              <PrintIcon sx={{color:"white", margin: "0 1rem"  }}/>
+              </Tooltip>
+            </Box>
           </Box>
           <Box
             sx={{

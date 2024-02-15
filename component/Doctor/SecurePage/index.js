@@ -33,7 +33,7 @@ const PrivateRoute = ({ children }) => {
     }
   }, [router]);
 
-  return profileData ? children : null;
+  return  children ;
 };
 
 export default PrivateRoute;
