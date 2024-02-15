@@ -1,138 +1,132 @@
 import {
-  Box,
-  Typography,
-  Button,
-  TextField,
-  Autocomplete,
-  Modal
-} from "@mui/material";
+    Box,
+    Typography,
+    Button,
+    TextField,
+    Autocomplete,
+    Modal
+  } from "@mui/material";
+  import { useState,useContext,useEffect } from "react";
+  import education from "../EducationDetails/education";
+  import { ProfileContext } from "@/context/profileContext";
+  import {POST,GET, DELETE} from "@/services/httpClient" 
 import DeleteIcon from "@mui/icons-material/Delete";
-import educationTitle from "./education";
-import { useContext, useEffect, useState } from "react";
-import { GET, POST, DELETE } from "@/services/httpClient";
-import { ProfileContext } from "@/context/profileContext";
-import { AppContext } from "@/context/appContext";
 import CloseIcon from '@mui/icons-material/Close';
+import { AppContext } from "@/context/appContext";
 
-export default function EducationDetails() {
+export default function Specialization() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [allEducations, setAllEducations] = useState([]);
-  const { profileData } = useContext(ProfileContext);
   const {setIsLoading,setSnackbarState}= useContext(AppContext);
-  const [education, setEducation] = useState({
-    title: "",
-    institute: "",
-    startDate: "",
-    endDate: "",
-    clientId: null,
-  });
+  const {profileData}= useContext(ProfileContext);
+  const [allSpecialization, setAllSpecialization] = useState([])
+    const [specialization, setSpecialization] = useState({
+        title: "",
+        institute: "",
+        startDate: "",
+        endDate: "",
+        clientId: null
+      });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEducation((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const newEducation = async () => {
-    if (
-      education.title !== "" &&
-      education.institute !== "" &&
-      education.startDate !== "" &&
-      education.endDate !== "" &&
-      education.clientId !==null
-    ) {
-      try {
-        setIsLoading(true)
-        const response = await POST(`/education`, education);
-        fetchRecords()
-        setIsLoading(false)
-        if(!response.error){
-          setEducation({
-            title: "",
-            institute: "",
-            startDate: "",
-            endDate: "",
-            clientId: null
-          })
+      const handleDelete= async (id)=>{
+        try {
+          setIsLoading(true)
+          const response= await DELETE(`/specialization/${id}`)
+          fetchRecords();
+          setIsLoading(false)
+          if(!response.error){
+            setSnackbarState({
+              severity: "success",
+              open: true,
+              message: "Deleted successfully",
+            })
+          }
+        } catch (error) {
+          console.log(error)
           setSnackbarState({
-            severity: "success",
+            severity: "error",
             open: true,
-            message: "Saved successfully",
+            message: "Failed to delete",
           })
+          setIsLoading(false)
         }
-      } catch (error) {
-        console.log("🚀 ~ handleUpdate ~ error:", error);
-        setSnackbarState({
-          severity: "error",
-          open: true,
-          message: "Failed to save",
-        })
-        setIsLoading(false)
       }
-      // setAllEducations([...allEducations, education]);
-    } else {
-      setSnackbarState({
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSpecialization((prev) => ({ ...prev, [name]: value }));
+      };
+      const handleSave= async ()=>{
+        if (
+          specialization.title !== "" &&
+          specialization.institute !== "" &&
+          specialization.startDate !== "" &&
+          specialization.endDate !== "" &&
+          specialization.clientId !==null
+        ){
+        try {
+          setIsLoading(true)
+          const response= await POST(`/specialization`,specialization)
+          fetchRecords();
+          setIsLoading(false)
+          if(!response.error){
+            setSpecialization({
+              title: "",
+              institute: "",
+              startDate: "",
+              endDate: "",
+              clientId: null
+            })
+            setSnackbarState({
+              severity: "success",
+              open: true,
+              message: "Saved successfully",
+            })
+          }
+        } catch (error) {
+          console.log(error)
+          setSnackbarState({
+            severity: "error",
+            open: true,
+            message: "Failed to delete",
+          })
+          setIsLoading(false)
+        }
+      }else{
+        setSnackbarState({
           severity: "error",
           open: true,
           message: "All fields are mandatory",
       })
-    }
-  };
-
-  const handleDelete= async (id)=>{
-    try {
-      setIsLoading(true)
-      const response= await DELETE(`/education/${id}`)
-      fetchRecords();
-      setIsLoading(false)
-      if(!response.error){
-        setSnackbarState({
-          severity: "success",
-          open: true,
-          message: "Deleted successfully",
-        })
       }
-    } catch (error) {
-      console.log(error)
-      setSnackbarState({
-        severity: "error",
-        open: true,
-        message: "Failed to delete",
-      })
-      setIsLoading(false)
     }
-  }
-  async function fetchRecords() {
-    try {
-      const response = await GET(`/education/${profileData._id}`);
-      setAllEducations(response);
-
-      console.log("🚀 ~ fetchRecords ~ response:", response);
-    } catch (error) {
-      console.log("🚀 ~ fetchRecords ~ error:", error);
-      setSnackbarState({
-        severity: "error",
-        open: true,
-        message: "Failed to get records",
-      })
-      setIsLoading(false)
-    }
-  }
-  useEffect(()=>{
-    if(profileData._id) fetchRecords();
-   },[profileData._id])
-
-  useEffect(() => {
-    if (profileData){
-      setEducation({...education,clientId:profileData._id})
-    }
-  }, [profileData._id]);
-
-
-
+      async function fetchRecords(){
+        try {
+          const response= await GET(`/specialization/${profileData?._id}`)
+          setAllSpecialization(response)
+        } catch (error) {
+          console.log(error)
+          setSnackbarState({
+            severity: "error",
+            open: true,
+            message: "Failed to get records",
+          })
+          setIsLoading(false)
+        }
+      }
+      useEffect(()=>{
+        if(profileData._id){
+          fetchRecords()
+        }
+      },[profileData._id])
+      useEffect(() => {
+        if (profileData){
+          setSpecialization({...specialization,clientId:profileData._id})
+        }
+      }, [profileData._id]);
   return (
-    <Box
+    <>
+           <Box
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -143,7 +137,7 @@ export default function EducationDetails() {
       }}
     >
       <Box width='57%' display='flex' justifyContent='flex-end' mb='1.1rem'>
-      <Button color="secondary" onClick={handleOpen} variant="contained" size="small" sx={{color:'white'}}><Typography textTransform='none'>Add Education</Typography></Button>
+      <Button color="secondary" onClick={handleOpen} variant="contained" size="small" sx={{color:'white'}}><Typography textTransform='none'>Add Specialization</Typography></Button>
       </Box>
 
       <Modal
@@ -157,10 +151,10 @@ export default function EducationDetails() {
           </Box>
         <Autocomplete
         id="tags-outlined"
-        options={educationTitle}
-        value={education.title}
+        options={education}
+        value={specialization.title}
         onChange={(_, newValue) =>
-          setEducation((prev) => ({ ...prev, title: newValue }))
+          setSpecialization((prev) => ({ ...prev, title: newValue }))
         }
         size="small"
         getOptionLabel={(option) => option}
@@ -191,7 +185,7 @@ export default function EducationDetails() {
           name="startDate"
           helperText="Start Date"
           size="small"
-          value={education.startDate}
+          value={specialization.startDate}
           onChange={handleChange}
           type="date"
           sx={{
@@ -202,7 +196,7 @@ export default function EducationDetails() {
           variant="outlined"
           name="endDate"
           type="date"
-          value={education.endDate}
+          value={specialization.endDate}
           onChange={handleChange}
           helperText="End Date (Blank If cont.)"
           size="small"
@@ -216,7 +210,7 @@ export default function EducationDetails() {
         variant="outlined"
         label="Institute"
         name="institute"
-        value={education.institute}
+        value={specialization.institute}
         onChange={handleChange}
         size="small"
         sx={{
@@ -235,7 +229,7 @@ export default function EducationDetails() {
         <Button
           variant="contained"
           size="small"
-          onClick={newEducation}
+          onClick={handleSave}
           color="secondary"
           sx={{ width: "15%", color: "white",marginBottom:'0.8rem',marginTop:'0.4rem' }}
         >
@@ -246,8 +240,8 @@ export default function EducationDetails() {
       </Modal>
 
      <Box width='57%' height='440px' sx={{overflowY:'scroll'}} >
-     {allEducations.length !== 0 &&
-        allEducations.map((value, index) => (
+     {allSpecialization.length !== 0 &&
+        allSpecialization.map((value, index) => (
           <Box
             key={index}
             sx={{
@@ -284,5 +278,6 @@ export default function EducationDetails() {
         ))}
      </Box>
     </Box>
-  );
+    </>
+  )
 }

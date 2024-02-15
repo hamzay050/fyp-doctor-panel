@@ -24,9 +24,10 @@ export default function VerticalTabs() {
       setValue("personal-information");
     else if (router.pathname.includes("education")) setValue("education");
     else if (router.pathname.includes("certificates")) setValue("certificates");
+    else if (router.pathname.includes("specialization")) setValue("specialization")
     else if (router.pathname.includes("scheduled")) setValue("scheduled");
-    else if (router.pathname.includes("work-experience"))
-      setValue("work-experience");
+    else if (router.pathname.includes("work-experience")) setValue("work-experience");
+    else if (router.pathname.includes("about")) setValue("about");
   }, []);
   return (
     <Box
@@ -51,9 +52,11 @@ export default function VerticalTabs() {
       >
         <Tab label="Personal Information" value={"personal-information"} />
         <Tab label="Education" value={"education"} />
+        <Tab label="Specialization" value={"specialization"} />
         <Tab label="Certifications" value={"certificates"} />
         <Tab label="Work Experience" value={"work-experience"} />
         <Tab label="Schedules" value={"scheduled"} />
+        <Tab label="About" value={"about"} />
       </Tabs>
     </Box>
   );
