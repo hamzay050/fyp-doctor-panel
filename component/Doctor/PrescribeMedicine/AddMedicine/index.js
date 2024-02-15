@@ -16,8 +16,8 @@ export default function AddMedicine({medData}) {
     }
   return (
     <>
-      <Box m='0.7rem'>
-      <Typography variant="body2" sx={{color:'#c1c0c0'}}>Diagnosis:</Typography>
+      <Box ml='1.0rem' mt="0.2rem" >
+      <Typography variant="body2" fontSize="12px" sx={{color:'#c1c0c0'}}>Diagnosis:</Typography>
       <TextField
       variant="outlined"
       label="Prescription reason"
@@ -27,13 +27,14 @@ export default function AddMedicine({medData}) {
       value={data.prescriptionReason}
       onChange={handleChange}/>
     </Box>
-    <Box m='1rem'>
-    <Typography variant="body2" sx={{color:'#c1c0c0'}}>Prescribe Medicine:</Typography>
+    <Box ml='1rem'>
+    <Typography variant="body2" fontSize="12px" sx={{color:'#c1c0c0'}}>Prescribe Medicine:</Typography>
     <TextField
       variant="outlined"
       label="Medicine name"
       name='medicineName'
       size="small"
+      fontSize="12px"
       sx={{ width:'62%',margin:'0.5rem'}}
       value={data.medicineName}
       onChange={handleChange}
@@ -82,7 +83,7 @@ export default function AddMedicine({medData}) {
     {/* </Box> */}
     <Box m='1rem'>
       <FormControl>
-      <FormLabel id="demo-radio-buttons-group-label" sx={{fontSize:'0.9rem',color:'#c1c0c0'}}>Route of adminstration</FormLabel>
+      <FormLabel id="demo-radio-buttons-group-label" sx={{fontSize:'12px',color:'#c1c0c0'}}>Route of adminstration</FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         defaultValue="female"
@@ -97,7 +98,7 @@ export default function AddMedicine({medData}) {
     </FormControl>
     </Box>
     <Box m='1rem'>
-      <Typography variant="body2" sx={{color:'#c1c0c0'}}>Special Instructions</Typography>
+      <Typography variant="body2" fontSize="12px" sx={{color:'#c1c0c0'}}>Special Instructions</Typography>
       <TextField
       variant="outlined"
       label="Instructions"
@@ -117,8 +118,13 @@ export default function AddMedicine({medData}) {
       onChange={handleChange}
       />
     </Box>
-    <Box m='1.5rem'>
-    <Button onClick={showData} variant="contained" color="secondary" sx={{color:'white'}}>Add medicine</Button>
+    <Box ml='1.7rem'>
+    <Button onClick={showData} size="small" variant="contained" color="secondary" sx={{color:'white'}}>
+      <Typography textTransform="none" variant="body2" fontSize="12px" >
+      Add medicine
+      </Typography>
+      </Button>
+      
     </Box>
     </>
   )
