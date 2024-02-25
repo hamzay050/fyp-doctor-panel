@@ -10,12 +10,12 @@ import {
   Modal,
   IconButton,
 } from "@mui/material";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import MedicationIcon from "@mui/icons-material/Medication";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddMedicine from "./AddMedicine";
-import PatientDetail from "./PatientDetail";
+import PatientDetail from "./PatientDetail/index";
 import ClearIcon from "@mui/icons-material/Clear";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -23,7 +23,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import DoneIcon from "@mui/icons-material/Done";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
-import { DELETE, GET, UPDATE } from "@/services/httpClient"; 
+import { DELETE, GET, UPDATE } from "@/services/httpClient";
 import { useRouter } from "next/router";
 
 const style = {
@@ -40,46 +40,50 @@ const style = {
 };
 
 export default function PrescribeMedicine() {
-  const router=useRouter();
-  const {appointmentId}=router.query
-  console.log(appointmentId)
+  const router = useRouter();
+  const { appointmentId } = router.query;
+  console.log(appointmentId);
   const [medicineData, setMedicineData] = useState([]);
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
- 
 
-      async function getMedicines(){
-        try {
-          const response= await GET(`/prescribe-medicine/${appointmentId}`)
-          console.log(response)
-          setMedicineData(response)
-        } catch (error) {
-          console.log(error)
-        }
-      }
-    
-      useEffect(()=>{
-        if(appointmentId){
-          getMedicines()
-        }return;
-      },[appointmentId])
+  async function getMedicines() {
+    try {
+      const response = await GET(`/prescribe-medicine/${appointmentId}`);
+      console.log(response);
+      setMedicineData(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-      const handleDelete= async (id)=>{
-        try {
-          const response= await DELETE(`/prescribe-medicine/${id}`)
-          getMedicines();
-        } catch (error) {
-          console.log(error)
-        }
-      }
-      const updateAppointmentStatus= async ()=>{
-        try {
-          const response= await UPDATE(`/prescribe-medicine`,{status:'completed',id:appointmentId})
-        } catch (error) {
-          console.log(error)
-        }
-      }
+  useEffect(() => {
+    if (appointmentId) {
+      getMedicines();
+    }
+    return;
+  }, [appointmentId]);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await DELETE(`/prescribe-medicine/${id}`);
+      getMedicines();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const updateAppointmentStatus = async () => {
+    try {
+      const response = await UPDATE(`/prescribe-medicine`, {
+        status: "completed",
+        id: appointmentId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Box
@@ -124,7 +128,7 @@ export default function PrescribeMedicine() {
             borderRadius: "10px",
           }}
         >
-          <PatientDetail />
+          <PatientDetail patientData={patientData} />
         </Grid>
         <Grid
           item
@@ -161,11 +165,14 @@ export default function PrescribeMedicine() {
                 </IconButton>
               </Tooltip>
 
-              <IconButton disabled={medicineData[0]?._id?false:true} onClick={updateAppointmentStatus}>
+              <IconButton
+                disabled={medicineData[0]?._id ? false : true}
+                onClick={updateAppointmentStatus}
+              >
                 <Tooltip title="Complete Prescription">
                   <LibraryAddCheckIcon
                     fontSize="small"
-                    sx={{ color: medicineData[0]?._id?'white':'#d5cece66', }}
+                    sx={{ color: medicineData[0]?._id ? "white" : "#d5cece66" }}
                   />
                 </Tooltip>
               </IconButton>
@@ -217,68 +224,62 @@ export default function PrescribeMedicine() {
           </Box>
           <Divider />
           {/* medicines */}
-          {
-            medicineData && medicineData.map((value)=>{
-              return(
+          {medicineData &&
+            medicineData.map((value) => {
+              return (
                 <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  margin: "0.7rem",
-                }}
-                key={value._id}
-              >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <VaccinesIcon sx={{ color: "#c1c0c0" }} />
-                  <Box m="0 0.3rem">
-                    <Typography
-                      variant="body1"
-                      sx={{ fontWeight: "600", color: "#383c3c" }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    margin: "0.7rem",
+                  }}
+                  key={value._id}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <VaccinesIcon sx={{ color: "#c1c0c0" }} />
+                    <Box m="0 0.3rem">
+                      <Typography
+                        variant="body1"
+                        sx={{ fontWeight: "600", color: "#383c3c" }}
+                      >
+                        {value.medicineName}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontWeight: "570", color: "#383c3c" }}
+                  >
+                    {value.frequency}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontWeight: "570", color: "#383c3c" }}
+                  >
+                    {value.amount}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontWeight: "570", color: "#383c3c" }}
+                  >
+                    {new Date(value.startDate).toLocaleDateString()}
+                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ padding: "0.1rem", color: "#fff" }}
                     >
-                      {value.medicineName}
-                    </Typography>
+                      View
+                    </Button>
+                    <IconButton onClick={() => handleDelete(value._id)}>
+                      <DeleteIcon sx={{ color: "#c1c0c0" }} />
+                    </IconButton>
                   </Box>
                 </Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ fontWeight: "570", color: "#383c3c" }}
-                >
-                  {value.frequency}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ fontWeight: "570", color: "#383c3c" }}
-                >
-                  {value.amount}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ fontWeight: "570", color: "#383c3c" }}
-                >
-                  {new Date(value.startDate).toLocaleDateString()}
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    sx={{ padding: "0.1rem", color: "#fff" }}
-                  >
-                    View
-                  </Button>
-                 <IconButton onClick={()=>handleDelete(value._id)}>
-                 <DeleteIcon
-                    sx={{ color: "#c1c0c0" }}
-                  />
-                 </IconButton>
-                </Box>
-              </Box>
-              )
-            })
-          }
-
-           
-     
+              );
+            })}
         </Grid>
       </Grid>
       <Modal
