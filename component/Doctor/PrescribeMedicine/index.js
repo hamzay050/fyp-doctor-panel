@@ -10,7 +10,7 @@ import {
   Modal,
   IconButton,
 } from "@mui/material";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import MedicationIcon from "@mui/icons-material/Medication";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,6 +23,9 @@ import PrintIcon from "@mui/icons-material/Print";
 import DoneIcon from "@mui/icons-material/Done";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
+import { DELETE, GET, UPDATE } from "@/services/httpClient"; 
+import { useRouter } from "next/router";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,17 +40,46 @@ const style = {
 };
 
 export default function PrescribeMedicine() {
-  const [medicineData, setMedicineData] = useState(null);
+  const router=useRouter();
+  const {appointmentId}=router.query
+  console.log(appointmentId)
+  const [medicineData, setMedicineData] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // callback to fetch data from child component about medicine
-  const medData = (data) => {
-    setMedicineData(data);
-  };
-  const deleteMedicine = () => {
-    setMedicineData(null);
-  };
+ 
+
+      async function getMedicines(){
+        try {
+          const response= await GET(`/prescribe-medicine/${appointmentId}`)
+          console.log(response)
+          setMedicineData(response)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    
+      useEffect(()=>{
+        if(appointmentId){
+          getMedicines()
+        }return;
+      },[appointmentId])
+
+      const handleDelete= async (id)=>{
+        try {
+          const response= await DELETE(`/prescribe-medicine/${id}`)
+          getMedicines();
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      const updateAppointmentStatus= async ()=>{
+        try {
+          const response= await UPDATE(`/prescribe-medicine`,{status:'completed',id:appointmentId})
+        } catch (error) {
+          console.log(error)
+        }
+      }
   return (
     <>
       <Box
@@ -129,11 +161,11 @@ export default function PrescribeMedicine() {
                 </IconButton>
               </Tooltip>
 
-              <IconButton>
+              <IconButton disabled={medicineData[0]?._id?false:true} onClick={updateAppointmentStatus}>
                 <Tooltip title="Complete Prescription">
                   <LibraryAddCheckIcon
                     fontSize="small"
-                    sx={{ color: "white" }}
+                    sx={{ color: medicineData[0]?._id?'white':'#d5cece66', }}
                   />
                 </Tooltip>
               </IconButton>
@@ -184,62 +216,69 @@ export default function PrescribeMedicine() {
             </Typography>
           </Box>
           <Divider />
-          {medicineData === null ? (
-            "Nothing to show"
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                margin: "0.7rem",
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <VaccinesIcon sx={{ color: "#c1c0c0" }} />
-                <Box m="0 0.3rem">
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: "600", color: "#383c3c" }}
+          {/* medicines */}
+          {
+            medicineData && medicineData.map((value)=>{
+              return(
+                <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "0.7rem",
+                }}
+                key={value._id}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <VaccinesIcon sx={{ color: "#c1c0c0" }} />
+                  <Box m="0 0.3rem">
+                    <Typography
+                      variant="body1"
+                      sx={{ fontWeight: "600", color: "#383c3c" }}
+                    >
+                      {value.medicineName}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: "570", color: "#383c3c" }}
+                >
+                  {value.frequency}
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: "570", color: "#383c3c" }}
+                >
+                  {value.amount}
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: "570", color: "#383c3c" }}
+                >
+                  {new Date(value.startDate).toLocaleDateString()}
+                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    sx={{ padding: "0.1rem", color: "#fff" }}
                   >
-                    {medicineData.medicineName}
-                  </Typography>
+                    View
+                  </Button>
+                 <IconButton onClick={()=>handleDelete(value._id)}>
+                 <DeleteIcon
+                    sx={{ color: "#c1c0c0" }}
+                  />
+                 </IconButton>
                 </Box>
               </Box>
-              <Typography
-                variant="subtitle2"
-                sx={{ fontWeight: "570", color: "#383c3c" }}
-              >
-                {medicineData.frequency}
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ fontWeight: "570", color: "#383c3c" }}
-              >
-                {medicineData.amount}
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ fontWeight: "570", color: "#383c3c" }}
-              >
-                {medicineData.startDate}
-              </Typography>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{ padding: "0.1rem", color: "#fff" }}
-                >
-                  View
-                </Button>
-                <DeleteIcon
-                  onClick={deleteMedicine}
-                  sx={{ color: "#c1c0c0" }}
-                />
-              </Box>
-            </Box>
-          )}
-          {medicineData === null ? "" : <Divider />}
+              )
+            })
+          }
+
+           
+     
         </Grid>
       </Grid>
       <Modal
@@ -259,7 +298,7 @@ export default function PrescribeMedicine() {
             >
               <ClearIcon sx={{ margin: "0 1rem" }} onClick={handleClose} />
             </Box>
-            <AddMedicine medData={medData} />
+            <AddMedicine />
           </Grid>
         </Grid>
       </Modal>
