@@ -26,9 +26,11 @@ import Notification from "./Notification";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
 import { ProfileContext } from "../../../context/profileContext";
+import { ClearAllCookies } from "@/component/Common/clearCookies";
 console.log(">>>>>>>>>>>>>>>" + ProfileContext);
 const Navbar = () => {
-  const { profileData } = useContext(ProfileContext);
+  const { profileData, setUserData, setProfileData } =
+    useContext(ProfileContext);
   const router = useRouter();
   const menu = useRef();
   const [Setting, setSetting] = useState(false);
@@ -44,13 +46,9 @@ const Navbar = () => {
     document.addEventListener("mousedown", handler);
   }, []);
   const handleLogout = () => {
-    const allCookies = document.cookie.split(";");
-
-    // Iterate through all cookies and remove each one
-    allCookies.forEach((cookie) => {
-      const cookieName = cookie.split("=")[0].trim();
-      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    });
+    setUserData(null);
+    setProfileData(null);
+    ClearAllCookies();
 
     router.push("/");
   };
@@ -227,12 +225,23 @@ const Navbar = () => {
                   />
                   Set Availibility
                 </Link>
-                <Button onClick={handleLogout} color="secondary" sx={{ margin: "0rem 1rem", }} startIcon={<LogoutIcon />}>
-                      <Typography variant="body2" sx={{ fontSize: "12px",
-                    // fontWeight:"500"
-                    }}>  Logout</Typography>
-                      
-                       </Button>{" "}
+                <Button
+                  onClick={handleLogout}
+                  color="secondary"
+                  sx={{ margin: "0rem 1rem" }}
+                  startIcon={<LogoutIcon />}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: "12px",
+                      // fontWeight:"500"
+                    }}
+                  >
+                    {" "}
+                    Logout
+                  </Typography>
+                </Button>{" "}
               </Box>
             )}
             <Button

@@ -26,6 +26,7 @@ export default function Login() {
     const params = {
       email: userCredentials.email,
       password: userCredentials.password,
+      role: "doctor",
     };
 
     try {
@@ -34,7 +35,6 @@ export default function Login() {
       console.log(response);
 
       if (!response.error) {
-        localStorage.setItem("userData", JSON.stringify(response.data));
         router.push("/doctor/patient-records");
       } else {
         console.log("Login failed");

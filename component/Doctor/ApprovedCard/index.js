@@ -148,7 +148,7 @@ const PatientCard = () => {
             <Button
               onClick={() =>
                 router.push(
-                  `/doctor/medicine/?appointmentId=${appointment._id}`
+                  `/doctor/medicine/?appointmentId=${appointment._id}&&patientId=${appointment.patientId}`
                 )
               }
               sx={{ display: "flex", justifyContent: "center" }}
