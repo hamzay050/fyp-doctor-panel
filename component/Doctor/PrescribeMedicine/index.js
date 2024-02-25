@@ -8,6 +8,7 @@ import {
   Typography,
   Divider,
   Modal,
+  IconButton,
 } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,9 +18,11 @@ import AddMedicine from "./AddMedicine";
 import PatientDetail from "./PatientDetail";
 import ClearIcon from "@mui/icons-material/Clear";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import PrintIcon from '@mui/icons-material/Print';
-import DoneIcon from '@mui/icons-material/Done';
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import PrintIcon from "@mui/icons-material/Print";
+import DoneIcon from "@mui/icons-material/Done";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 const style = {
   position: "absolute",
   top: "50%",
@@ -69,11 +72,11 @@ export default function PrescribeMedicine() {
           ),
         }}
       /> */}
-        <Button size="small" onClick={handleOpen} variant="contained">
-          <Typography textTransform="none"  fontSize="14px" >
+        {/* <Button size="small" onClick={handleOpen} variant="contained">
+          <Typography textTransform="none" fontSize="14px">
             Add Medicine
           </Typography>
-        </Button>
+        </Button> */}
       </Box>
       <Grid container>
         <Grid
@@ -117,37 +120,34 @@ export default function PrescribeMedicine() {
               variant="body1"
               sx={{ color: "white", margin: "0 1rem" }}
             >
-              Medicine Prescribed
+              Prescribe Medicine
             </Typography>
-            <Box display="flex" justifyContent="flex-start" alignItems="center" >
-             <Tooltip title="Finalize">
-            {/* <Button color="secondary"
-              sx={{
-                // color:'#fff',
-                 margin: "0 1rem"
-              }}
-              variant="outlined"
-              size="small"> */}
-               
-            <Typography textTransform="none" fontSize="14px" color="white" >
-            <Box display="flex" alignItems="center" justifyContent="space-evenly">
-            Mark as Completed
-           
-            </Box>
-          </Typography>
-            
-              {/* </Button> */}
+            <Box display="flex" justifyContent="flex-start" alignItems="center">
+              <Tooltip title="Add Medicine">
+                <IconButton onClick={() => handleOpen()}>
+                  <AddBoxIcon fontSize="small" sx={{ color: "white" }} />
+                </IconButton>
               </Tooltip>
-              <Tooltip title="Prescribed">
-            <DoneIcon   fontSize='small' sx={{marginLeft:"5px",color:"white"}} />
-            </Tooltip>
-                            <Tooltip title="View">
 
-              <RemoveRedEyeIcon sx={{ color: "white", margin: "0 1rem" }} />
-              </Tooltip>
-              <Tooltip title="Print">
-              <PrintIcon sx={{color:"white", margin: "0 1rem"  }}/>
-              </Tooltip>
+              <IconButton>
+                <Tooltip title="Complete Prescription">
+                  <LibraryAddCheckIcon
+                    fontSize="small"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </IconButton>
+
+              <IconButton>
+                <Tooltip title="View">
+                  <RemoveRedEyeIcon sx={{ color: "white" }} />
+                </Tooltip>
+              </IconButton>
+              <IconButton>
+                <Tooltip title="Print">
+                  <PrintIcon sx={{ color: "white" }} />
+                </Tooltip>
+              </IconButton>
             </Box>
           </Box>
           <Box
