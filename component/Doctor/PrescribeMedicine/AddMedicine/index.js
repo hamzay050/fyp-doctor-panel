@@ -9,9 +9,13 @@ import {
   RadioGroup,
   FormControlLabel,
 } from "@mui/material";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useRouter } from "next/router";
+import { POST,GET } from "@/services/httpClient";
 
-export default function AddMedicine({ medData }) {
+export default function AddMedicine() {
+  const router= useRouter();
+  const {appointmentId}= router.query;
   const [data, setData] = useState({
     prescriptionReason: "",
     medicineName: "",
@@ -22,16 +26,24 @@ export default function AddMedicine({ medData }) {
     administration: "",
     specialInstruction: "",
     recommendedTest: "",
+    appointmentId: appointmentId
   });
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setData({ ...data, [name]: value });
   };
-  const showData = () => {
-    // console.log(data)
-    medData(data);
-  };
+  const addMedicine= async ()=>{
+    try {
+      const response= await POST(`/prescribe-medicine`,{data})
+      getMedicines()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
   return (
     <>
       <Box ml="1.0rem" mt="0.2rem">
@@ -161,7 +173,7 @@ export default function AddMedicine({ medData }) {
       </Box>
       <Box ml="1.7rem">
         <Button
-          onClick={showData}
+          onClick={addMedicine}
           size="small"
           variant="contained"
           color="secondary"
