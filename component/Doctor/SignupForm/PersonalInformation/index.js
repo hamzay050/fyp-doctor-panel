@@ -27,6 +27,7 @@ export default function PersonalInformation() {
     streetNumber: "",
     city: "",
     medicalLicenseNumber: "",
+    speciality:""
   });
 
   async function handleUpdate() {
@@ -63,6 +64,7 @@ export default function PersonalInformation() {
       medicalLicenseNumber: profileData.medicalLicenseNumber,
       state: profileData.state,
       country: profileData.country,
+      speciality:profileData.speciality
     });
   }, [profileData]);
   return (
@@ -130,7 +132,7 @@ export default function PersonalInformation() {
             value="male"
             size="small"
             color="secondary"
-            sx={{ width: { xs: "100px", sm: "130px", lg: "170px" } }}
+            sx={{ width: { xs: "100px", sm: "130px", lg: "120px" } }}
           >
             Male
           </ToggleButton>
@@ -138,7 +140,7 @@ export default function PersonalInformation() {
             value="female"
             size="small"
             color="secondary"
-            sx={{ width: { xs: "100px", sm: "130px", lg: "170px" } }}
+            sx={{ width: { xs: "100px", sm: "130px", lg: "120px" } }}
           >
             Female
           </ToggleButton>
@@ -155,10 +157,24 @@ export default function PersonalInformation() {
             setData({ ...data, medicalLicenseNumber: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "30%" },
+            width: { xs: "100%", sm: "40%", md: "27%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
           }}
         />
+         <TextField
+              variant="outlined"
+              label="speciality"
+              name="speciality"
+              size="small"
+              value={data.speciality}
+              onChange={(e) => {
+                setData({ ...data, speciality: e.target.value });
+              }}
+              sx={{
+                width: { xs: "100%", sm: "40%", md: "30%" },
+                margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
+              }}
+            />
         <Box sx={{ margin: { xs: "0rem", sm: "1rem 0" } }}>
           <TextField
             variant="outlined"
@@ -261,6 +277,7 @@ export default function PersonalInformation() {
                 margin: { xs: "0.4rem 0", sm: "0.4rem", md: "0 0.4rem" },
               }}
             />
+        
           </Box>
           <Button
             onClick={handleUpdate}

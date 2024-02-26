@@ -18,10 +18,10 @@ export default function PatientDetail({ patientData }) {
       <Box display="flex" alignItems="center" gap={1} p={2}>
         <AvatarBox mheight={height} mwidth={width} />
         <Typography variant="body1" sx={{ fontWeight: "570" }}>
-          {patientData?.firstName + " " + patientData?.lastName}
+          {patientData?.profileDetails[0].firstName + " " + patientData?.profileDetails[0].lastName}
         </Typography>
         <Typography variant="body2">
-          {patientData?.dateOfBirth ? patientData?.dateOfBirth : null}
+          {patientData?.profileDetails[0].dateOfBirth ? new Date(patientData.profileDetails[0].dateOfBirth).toLocaleDateString() : null}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center">

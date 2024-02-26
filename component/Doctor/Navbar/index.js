@@ -91,7 +91,7 @@ const Navbar = () => {
                   letterSpacing: "1px",
                 }}
               >
-                HOME
+                <Typography textTransform='none'>Home</Typography>
               </Button>
             </Link>
             {/* <Link
@@ -121,7 +121,7 @@ const Navbar = () => {
                   letterSpacing: "1px",
                 }}
               >
-                Records
+                <Typography textTransform='none'>Records</Typography>
               </Button>{" "}
             </Link>
             <Link
@@ -136,7 +136,7 @@ const Navbar = () => {
                   letterSpacing: "1px",
                 }}
               >
-                Appointments
+                <Typography textTransform='none'>Appointments</Typography>
               </Button>{" "}
             </Link>
             <Link
@@ -151,7 +151,7 @@ const Navbar = () => {
                   letterSpacing: "1px",
                 }}
               >
-                Messages
+                <Typography textTransform='none'>Messages</Typography>
               </Button>{" "}
             </Link>
           </Box>

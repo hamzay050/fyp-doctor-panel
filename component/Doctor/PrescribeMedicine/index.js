@@ -42,8 +42,10 @@ const style = {
 export default function PrescribeMedicine() {
   const router = useRouter();
   const { appointmentId } = router.query;
-  console.log(appointmentId);
   const [medicineData, setMedicineData] = useState([]);
+  const [patientData, setPatientData] = useState([])
+  const [appointmentStatus, setAppointmentStatus] = useState("")
+  console.log(appointmentStatus);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -59,9 +61,20 @@ export default function PrescribeMedicine() {
     }
   }
 
+  async function getAppointmentStatus(){
+    try {
+      const response= await GET(`/prescribe-medicine/appointment-status/${appointmentId}`);
+      setAppointmentStatus(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (appointmentId) {
       getMedicines();
+      getPatientData();
+      getAppointmentStatus();
     }
     return;
   }, [appointmentId]);
@@ -84,6 +97,16 @@ export default function PrescribeMedicine() {
       console.log(error);
     }
   };
+
+  async function getPatientData(){
+    try {
+      const response= await GET(`/prescribe-medicine/patient/${appointmentId}`)
+      console.log(response)
+      setPatientData(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <>
       <Box
@@ -128,7 +151,7 @@ export default function PrescribeMedicine() {
             borderRadius: "10px",
           }}
         >
-          <PatientDetail patientData={patientData} />
+          <PatientDetail patientData={patientData[0]} />
         </Grid>
         <Grid
           item
@@ -160,13 +183,13 @@ export default function PrescribeMedicine() {
             </Typography>
             <Box display="flex" justifyContent="flex-start" alignItems="center">
               <Tooltip title="Add Medicine">
-                <IconButton onClick={() => handleOpen()}>
-                  <AddBoxIcon fontSize="small" sx={{ color: "white" }} />
+                <IconButton onClick={() => handleOpen()} disabled={appointmentStatus?.status!=='completed'?false:true}>
+                  <AddBoxIcon fontSize="small" sx={{ color: appointmentStatus?.status!=='completed' ? "white" : "#d5cece66" }} />
                 </IconButton>
               </Tooltip>
 
               <IconButton
-                disabled={medicineData[0]?._id ? false : true}
+                disabled={!medicineData[0]?._id || appointmentStatus?.status === 'completed'}
                 onClick={updateAppointmentStatus}
               >
                 <Tooltip title="Complete Prescription">
@@ -177,14 +200,14 @@ export default function PrescribeMedicine() {
                 </Tooltip>
               </IconButton>
 
-              <IconButton>
+              <IconButton disabled={appointmentStatus?.status!=='completed'?false:true}>
                 <Tooltip title="View">
-                  <RemoveRedEyeIcon sx={{ color: "white" }} />
+                  <RemoveRedEyeIcon sx={{ color: appointmentStatus?.status!=='completed' ? "white" : "#d5cece66" }} />
                 </Tooltip>
               </IconButton>
-              <IconButton>
+              <IconButton disabled={appointmentStatus?.status!=='completed'?false:true}>
                 <Tooltip title="Print">
-                  <PrintIcon sx={{ color: "white" }} />
+                  <PrintIcon sx={{ color: appointmentStatus?.status!=='completed' ? "white" : "#d5cece66" }} />
                 </Tooltip>
               </IconButton>
             </Box>
