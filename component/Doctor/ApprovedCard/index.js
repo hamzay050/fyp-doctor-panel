@@ -18,6 +18,7 @@ const PatientCard = () => {
   const router = useRouter();
   const { profileData } = useContext(ProfileContext);
   const [appointments, setAppointments] = useState();
+  const [allAppointmentData, setAllAppointmentData] = useState([])
   const totalwidth = 40;
   const totalheight = 40;
   useEffect(() => {
@@ -31,23 +32,39 @@ const PatientCard = () => {
       setAppointments(response);
     } catch (error) {}
   }
+
+  async function getPatientDetails(){
+    try {
+        const response= await GET(`/appointment/patient-approved-details/${profileData._id}`)
+        setAllAppointmentData(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log(allAppointmentData)
+  useEffect(()=>{
+         if(profileData._id){
+          getPatientDetails();
+         }
+  },[profileData._id])
   return (
-    <Box
+   <Box display='flex' justifyContent='center' mt='2rem'>
+     <Box
       sx={{
-        margin: "2rem 0",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width:'90%'
       }}
     >
-      {appointments?.map((appointment) => (
-        <Card sx={{ width: 250 }}>
+      {allAppointmentData?.map((appointment) => (
+        <Card sx={{ width: 270,margin:'0.7rem',padding:'0.3rem 0'}} key={appointment._id}>
           <Box
             display="flex"
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            m="1rem 0 0.5rem 0"
+            p="0.5rem 0"
           >
             <Avatarpatient mwidth={totalwidth} mheight={totalheight} />
             <Typography
@@ -55,11 +72,12 @@ const PatientCard = () => {
               variant="body1"
               component="div"
             >
-              nam yha ay ga
+        {appointment.patientsData[0].firstName + " " + appointment.patientsData[0].lastName}
+
             </Typography>
           </Box>
           <CardContent>
-            <Box m="0.4rem 0 ">
+            <Box>
               <Typography
                 variant="body1"
                 sx={{
@@ -69,17 +87,17 @@ const PatientCard = () => {
                   fontSize: "13px",
                 }}
               >
-                rabta nambar
+                Contact number:
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                00000000{" "}
+                {appointment.patientsData[0].contactNumber}{" "}
               </Typography>
             </Box>
-            <Box m="0.4rem 0 ">
+            <Box >
               <Typography
                 variant="body1"
                 sx={{
@@ -96,10 +114,10 @@ const PatientCard = () => {
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                none@gmail.com
+                {appointment.patientsData[0].email}{" "}
               </Typography>
             </Box>
-            <Box m="0.4rem 0 ">
+            <Box >
               <Typography
                 variant="body1"
                 sx={{
@@ -116,10 +134,10 @@ const PatientCard = () => {
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                {appointment?.date}
+                {new Date(appointment.date).toLocaleDateString()}
               </Typography>
             </Box>
-            <Box m="0.4rem 0 ">
+            <Box>
               <Typography
                 variant="body1"
                 sx={{
@@ -133,14 +151,14 @@ const PatientCard = () => {
               </Typography>
               <Typography variant="body2" sx={{ display: "inline" }}>
                 {" "}
-                slot id k sath join or start or end time
+                {appointment.slotsData[0].startTime + " - " + appointment.slotsData[0].endTime}
+
               </Typography>
             </Box>
           </CardContent>
 
           <CardActions
             sx={{
-              margin: "0.5rem",
               display: "flex",
               justifyContent: "space-evenly",
             }}
@@ -151,16 +169,18 @@ const PatientCard = () => {
                   `/doctor/medicine/?appointmentId=${appointment._id}&&patientId=${appointment.patientId}`
                 )
               }
-              sx={{ display: "flex", justifyContent: "center" }}
+              sx={{ display: "flex", justifyContent: "center",color:'white' }}
               variant="contained"
               size="small"
+              color="secondary"
             >
-              Prescribe Medicine
+              <Typography textTransform='none' fontSize='14px'>Prescribe Medicine</Typography>
             </Button>
           </CardActions>
         </Card>
       ))}
     </Box>
+   </Box>
   );
 };
 

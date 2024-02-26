@@ -9,15 +9,15 @@ import {
   Link,
   Box,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import { GET, UPDATE } from "@/services/httpClient";
 import { ProfileContext } from "@/context/profileContext";
 const PatientCard = () => {
   const { profileData } = useContext(ProfileContext);
   const [appointments, setAppointments] = useState();
-  const router = useRouter();
+  const [allAppointmentData, setAllAppointmentData] = useState([])
   const totalwidth = 40;
   const totalheight = 40;
+  console.log(appointments)
   async function fetchAllAppointments() {
     try {
       const response = await GET("/appointment/by-doctor-id", {
@@ -28,7 +28,7 @@ const PatientCard = () => {
   }
   useEffect(() => {
     if (profileData._id) fetchAllAppointments();
-  }, [profileData._id]);
+  }, [profileData?._id]);
   async function updateAppointmentStatus(id, status) {
     try {
       const response = await UPDATE("/appointment/by-doctor-id", {
@@ -38,23 +38,38 @@ const PatientCard = () => {
       if (response) fetchAllAppointments();
     } catch (error) {}
   }
+  async function getPatientDetails(){
+    try {
+        const response= await GET(`/appointment/patient-details/${profileData._id}`)
+        setAllAppointmentData(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log(allAppointmentData)
+  useEffect(()=>{
+         if(profileData._id){
+          getPatientDetails();
+         }
+  },[profileData._id])
   return (
+   <Box display='flex' justifyContent='center' mt='2rem'>
     <Box
       sx={{
-        margin: "2rem 0",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width:"90%"
       }}
     >
-      {appointments?.map((appointment) => (
-        <Card sx={{ width: 250 }}>
+      {allAppointmentData?.map((appointment) => (
+        <Card sx={{ width: 270,margin:'0.7rem',padding:'0.3rem 0' }} key={appointment._id}>
           <Box
             display="flex"
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            m="1rem 0 0.5rem 0"
+            p="0.5rem 0"
           >
             <Avatarpatient mwidth={totalwidth} mheight={totalheight} />
             <Typography
@@ -62,11 +77,11 @@ const PatientCard = () => {
               variant="body1"
               component="div"
             >
-              nam yha ay ga
+              {appointment.patientsData[0].firstName + " " + appointment.patientsData[0].lastName}
             </Typography>
           </Box>
           <CardContent>
-            <Box m="0.4rem 0 ">
+            <Box >
               <Typography
                 variant="body1"
                 sx={{
@@ -76,17 +91,17 @@ const PatientCard = () => {
                   fontSize: "13px",
                 }}
               >
-                rabta nambar
+                Contact Number:
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                00000000{" "}
+                {appointment.patientsData[0].contactNumber}{" "}
               </Typography>
             </Box>
-            <Box m="0.4rem 0 ">
+            <Box >
               <Typography
                 variant="body1"
                 sx={{
@@ -103,10 +118,10 @@ const PatientCard = () => {
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                none@gmail.com
+                {appointment.patientsData[0].email}{" "}
               </Typography>
             </Box>
-            <Box m="0.4rem 0 ">
+            <Box>
               <Typography
                 variant="body1"
                 sx={{
@@ -123,10 +138,10 @@ const PatientCard = () => {
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                {appointment?.date}
+                {new Date(appointment.date).toLocaleDateString()}
               </Typography>
             </Box>
-            <Box m="0.4rem 0 ">
+            <Box>
               <Typography
                 variant="body1"
                 sx={{
@@ -140,14 +155,13 @@ const PatientCard = () => {
               </Typography>
               <Typography variant="body2" sx={{ display: "inline" }}>
                 {" "}
-                slot id k sath join or start or end time
+                {appointment.slotsData[0].startTime + " - " + appointment.slotsData[0].endTime}
               </Typography>
             </Box>
           </CardContent>
 
           <CardActions
             sx={{
-              margin: "0.5rem",
               display: "flex",
               justifyContent: "space-evenly",
             }}
@@ -159,7 +173,8 @@ const PatientCard = () => {
                 updateAppointmentStatus(appointment._id, "approved")
               }
             >
-              Approve
+             <Typography textTransform='none' fontSize='14px'>Approve</Typography>
+
             </Button>
 
             <Button
@@ -173,12 +188,13 @@ const PatientCard = () => {
                 updateAppointmentStatus(appointment._id, "cancelled")
               }
             >
-              Cancel
+              <Typography textTransform='none' fontSize='14px'>Cancel</Typography>
             </Button>
           </CardActions>
         </Card>
       ))}
     </Box>
+   </Box>
   );
 };
 
