@@ -10,6 +10,7 @@ import cookies from "cookie";
 import { GET } from "@/services/httpClient";
 import { AppContext } from "./appContext";
 import { useRouter } from "next/router";
+import { ClearAllCookies } from "@/component/Common/clearCookies";
 export const ProfileContext = createContext();
 
 const ProfileContextProvider = ({ children }) => {
@@ -31,9 +32,13 @@ const ProfileContextProvider = ({ children }) => {
           "mysecret%$sha256/!alpha$%$bang.etae"
         );
 
-        if (decoded) {
+        if (decoded && decoded.role == "doctor") {
           setUserData(decoded);
           return;
+        } else {
+          setUserData(null);
+          setProfileData(null);
+          ClearAllCookies();
         }
       }
     } catch (error) {
