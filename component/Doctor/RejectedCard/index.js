@@ -133,9 +133,9 @@ const PatientCard = () => {
                 </Typography>
                 <Typography variant="body2" sx={{ display: "inline" }}>
                   {" "}
-                  {appointment.slotsData[0].startTime +
+                  {appointment?.slotsData[0]?.startTime +
                     " - " +
-                    appointment.slotsData[0].endTime}
+                    appointment?.slotsData[0]?.endTime}
                 </Typography>
               </Box>
             </CardContent>
