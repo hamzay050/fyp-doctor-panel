@@ -15,6 +15,8 @@ const AppointmentsList = () => {
     if (router.pathname.includes("approved"))
       setValue("approved");
     else if (router.pathname.includes("rejected")) setValue("rejected");
+    else if (router.pathname.includes("completed")) setValue("completed");
+
   }, []);
   return (
     <>
@@ -27,6 +29,7 @@ const AppointmentsList = () => {
       >
         <Tab label="Pending" value={"/"} />
         <Tab label="Approved" value={"approved"} />
+        <Tab label="Completed" value={"completed"} />
         <Tab label="Rejected" value={"rejected"} />
 
       </Tabs>

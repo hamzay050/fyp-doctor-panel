@@ -38,7 +38,7 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   height: 22,
 }));
 
-export default function AvatarBox({ mwidth, mheight }) {
+export default function AvatarBox({ mwidth, mheight,image }) {
   return (
     <Box sx={{ margin: "0 0 0 0.5rem" }}>
       <StyledBadge
@@ -50,7 +50,7 @@ export default function AvatarBox({ mwidth, mheight }) {
         {/* <Avatar alt="Remy Sharp" src="/Assests/Tick.svg" /> */}
         <Avatar
           alt="Remy Sharp"
-          src="https://cdn-icons-png.flaticon.com/512/1430/1430453.png"
+          src={image?process.env.NEXT_PUBLIC_BASE_URL+image:'/Assests/hero1.png'}
           sx={{ width: mwidth, height: mheight }}
         />
       </StyledBadge>

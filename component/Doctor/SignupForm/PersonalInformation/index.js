@@ -1,6 +1,5 @@
-import { AppContext } from "@/context/appContext";
 import { ProfileContext } from "@/context/profileContext";
-import { GET, UPDATE } from "@/services/httpClient";
+import { GET, UPDATE, UPLOAD_FORM_DATA } from "@/services/httpClient";
 import {
   TextField,
   Box,
@@ -8,15 +7,24 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Button,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+  Avatar,
+  Input,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
+import { AppContext } from "@/context/appContext";
+
 
 export default function PersonalInformation() {
-  const { profileData } = useContext(ProfileContext);
-
+  const { profileData, fetchProfileData } = useContext(ProfileContext);
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const [userId, setUserId] = useState();
+  const [selectedImage, setSelectedImage] = useState("");
   const [data, setData] = useState({
-    profileImage: "",
+    profilePicture: "",
     firstName: "",
     lastName: "",
     nationalIdentityNumber: "",
@@ -27,14 +35,30 @@ export default function PersonalInformation() {
     streetNumber: "",
     city: "",
     medicalLicenseNumber: "",
-    speciality:""
+    speciality:"",
+    fee:""
   });
+
 
   async function handleUpdate() {
     try {
+      setIsLoading(true)
       const response = await UPDATE(`/profile/${profileData._id}`, data);
+      if(!response.error) setIsLoading(false)
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "success",
+        open: true,
+    message: "Updated successfully",
+      })
+
     } catch (error) {
-      console.log("🚀 ~ handleUpdate ~ error:", error);
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+    message: "Failed to update,try again",
+      })
     }
     console.log(data);
   }
@@ -51,7 +75,7 @@ export default function PersonalInformation() {
     console.log("🚀🚀🚀🚀🚀 ~ PersonalInformation ~ profileData:", profileData);
     if (!profileData) return;
     setData({
-      profileImage: profileData.profileImage,
+      profilePicture: profileData.profilePicture,
       firstName: profileData.firstName,
       lastName: profileData.lastName,
       nationalIdentityNumber: profileData.nationalIdentityNumber,
@@ -64,11 +88,75 @@ export default function PersonalInformation() {
       medicalLicenseNumber: profileData.medicalLicenseNumber,
       state: profileData.state,
       country: profileData.country,
-      speciality:profileData.speciality
+      speciality:profileData.speciality,
+      fee:profileData.fee
     });
   }, [profileData]);
+
+  const fileInput = useRef(null);
+  const handleInput = (e) => {
+    const image = e.target.files[0];
+
+    if (image) {
+      setSelectedImage(image);
+    }
+  };
+  const chooseImg = () => {
+    fileInput.current.click();
+  };
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      formData.append("clientId", profileData._id);
+
+      const response = await UPLOAD_FORM_DATA(
+        "/profile/upload-profile-pic",
+        formData
+      );
+      fetchProfileData();
+      console.log("File uploaded successfully:", response);
+      // Optionally, you can handle the response or update UI accordingly
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // Optionally, you can handle errors and update UI accordingly
+    }
+  };
+  useEffect(() => {
+    if (selectedImage) {
+      handleUpload();
+    }
+  }, [selectedImage]);
+
   return (
     <>
+    <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Input
+          type="file"
+          onChange={handleInput}
+          inputRef={fileInput}
+          style={{ display: "none" }}
+        />
+        <Avatar
+          onClick={chooseImg}
+          alt="Profile Image"
+          src={
+            data.profilePicture === ""
+              ? "/Assests/docprofile.png"
+              : process.env.NEXT_PUBLIC_BASE_URL + data.profilePicture
+          }
+          sx={{ width: 70, height: 70, margin: "0.4rem 0 0 0" }}
+        />
+
+        <Typography variant="body2">Select Profile Image</Typography>
+      </Box>
       <Typography variant="body2" sx={{ margin: "1rem 0", color: "#646464" }}>
         Personal Information:{" "}
       </Typography>
@@ -157,7 +245,7 @@ export default function PersonalInformation() {
             setData({ ...data, medicalLicenseNumber: e.target.value });
           }}
           sx={{
-            width: { xs: "100%", sm: "40%", md: "27%" },
+            width: { xs: "100%", sm: "40%", md: "25%" },
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
           }}
         />
@@ -171,7 +259,20 @@ export default function PersonalInformation() {
                 setData({ ...data, speciality: e.target.value });
               }}
               sx={{
-                width: { xs: "100%", sm: "40%", md: "30%" },
+                width: { xs: "100%", sm: "40%", md: "27%" },
+                margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
+              }}
+            />
+            <TextField
+              variant="outlined"
+              label="Fee"
+              size="small"
+              value={data.fee}
+              onChange={(e) => {
+                setData({ ...data, fee: e.target.value });
+              }}
+              sx={{
+                width: '8%',
                 margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
               }}
             />

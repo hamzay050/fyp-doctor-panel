@@ -2,24 +2,45 @@ import { Box, TextField,Button,Typography } from "@mui/material";
 import { useState,useContext,useEffect } from "react";
 import { ProfileContext } from "@/context/profileContext";
 import {UPDATE,GET} from "@/services/httpClient"
+import { AppContext } from "@/context/appContext";
 
 export default function About() {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
     const [doctorAbout, setDoctorAbout] = useState(null)
     const {profileData}= useContext(ProfileContext)
   const saveAbout= async ()=>{
     try {
+        setIsLoading(true)
         const response= await UPDATE(`/profile/${profileData?._id}`,{doctorAbout});
-
+       setIsLoading(false)
+       setIsLoading(false)
+      setSnackbarState({
+        severity: "success",
+        open: true,
+    message: "Updated successfully",
+      })
     } catch (error) {
-        console.log(error)
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+    message: "Failed to update,try again",
+      })
     }
   }
   async function fetchRecords(){
     try {
+      setIsLoading(true)
         const response= await GET(`/profile/${profileData?._id}`)
         setDoctorAbout(response.doctorAbout)
+        setIsLoading(false)
     } catch (error) {
-        console.log(error)
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+    message: "Failed to fetch,try again",
+      })
     }
   }
   useEffect(() => {

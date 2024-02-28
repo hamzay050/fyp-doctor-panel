@@ -34,6 +34,7 @@ const ProfileContextProvider = ({ children }) => {
 
         if (decoded && decoded.role == "doctor") {
           setUserData(decoded);
+          console.log("decode",decoded)
           return;
         } else {
           setUserData(null);
@@ -67,6 +68,7 @@ const ProfileContextProvider = ({ children }) => {
     setIsUpdated,
     profileData,
     setProfileData,
+    fetchProfileData
   };
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
