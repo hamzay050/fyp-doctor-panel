@@ -168,7 +168,12 @@ const Navbar = () => {
                 size="medium"
                 onClick={toggleMenu}
                 sx={{ cursor: "pointer", border: "1px solid #d7c2c29e" }}
-                src="/Assests/hero1.png"
+                src={
+                  profileData?.profilePicture
+                    ? process.env.NEXT_PUBLIC_BASE_URL +
+                      profileData.profilePicture
+                    : "/Assests/hero1.png"
+                }
               >
                 M
               </Avatar>

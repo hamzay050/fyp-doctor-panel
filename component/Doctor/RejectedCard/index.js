@@ -5,8 +5,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useEffect, useState, useContext } from "react";
 import { ProfileContext } from "@/context/profileContext";
 import { GET } from "@/services/httpClient";
+import { AppContext } from "@/context/appContext";
 
 const PatientCard = () => {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const { profileData } = useContext(ProfileContext);
   const totalwidth = 40;
   const totalheight = 40;
@@ -14,12 +16,19 @@ const PatientCard = () => {
 
   async function getPatientDetails() {
     try {
+      setIsLoading(true)
       const response = await GET(
         `/appointment/patient-rejected-details/${profileData._id}`
       );
       setAllAppointmentData(response);
+      setIsLoading(false)
     } catch (error) {
-      console.log(error);
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+    message: "Failed to fetch,try again",
+      })
     }
   }
   console.log(allAppointmentData);
@@ -37,6 +46,7 @@ const PatientCard = () => {
           alignItems: "center",
           width: "90%",
         }}
+        flexWrap='wrap'
       >
         {allAppointmentData?.map((appointment) => {
           return(
@@ -47,15 +57,15 @@ const PatientCard = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <Avatarpatient mwidth={totalwidth} mheight={totalheight} />
+              <Avatarpatient image={appointment?.patientsData[0]?.profilePicture} mwidth={totalwidth} mheight={totalheight} />
               <Typography
                 sx={{ fontWeight: 600, color: "#393a3a", fontSize: "13px" }}
                 variant="body1"
                 component="div"
               >
-                {appointment.patientsData[0].firstName +
+                {appointment?.patientsData[0]?.firstName +
                   " " +
-                  appointment.patientsData[0].lastName}
+                  appointment?.patientsData[0]?.lastName}
               </Typography>
             </Box>
             <CardContent>
@@ -76,7 +86,7 @@ const PatientCard = () => {
                   sx={{ display: "inline", color: "#515454" }}
                 >
                   {" "}
-                  {appointment.patientsData[0].contactNumber}{" "}
+                  {appointment?.patientsData[0]?.contactNumber}{" "}
                 </Typography>
               </Box>
               <Box>
@@ -96,7 +106,7 @@ const PatientCard = () => {
                   sx={{ display: "inline", color: "#515454" }}
                 >
                   {" "}
-                  {appointment.patientsData[0].email}{" "}
+                  {appointment?.patientsData[0]?.email}{" "}
                 </Typography>
               </Box>
               <Box>
@@ -133,9 +143,9 @@ const PatientCard = () => {
                 </Typography>
                 <Typography variant="body2" sx={{ display: "inline" }}>
                   {" "}
-                  {appointment.slotsData[0].startTime +
+                  {appointment?.slotsData[0]?.startTime +
                     " - " +
-                    appointment.slotsData[0].endTime}
+                    appointment?.slotsData[0]?.endTime}
                 </Typography>
               </Box>
             </CardContent>

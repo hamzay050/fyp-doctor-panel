@@ -9,11 +9,13 @@ import {
   RadioGroup,
   FormControlLabel,
 } from "@mui/material";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
 import { useRouter } from "next/router";
 import { POST,GET } from "@/services/httpClient";
+import { AppContext } from "@/context/appContext";
 
-export default function AddMedicine() {
+export default function AddMedicine({setMedicineData}) {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const router= useRouter();
   const {appointmentId}= router.query;
   const [data, setData] = useState({
@@ -35,14 +37,41 @@ export default function AddMedicine() {
   };
   const addMedicine= async ()=>{
     try {
+      setIsLoading(true)
       const response= await POST(`/prescribe-medicine`,{data})
       getMedicines()
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Saved successfully",
+      })
     } catch (error) {
-      console.log(error)
+       setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to save,try again",
+      })
     }
   }
 
-
+  async function getMedicines() {
+    try {
+      setIsLoading(true)
+      const response = await GET(`/prescribe-medicine/${appointmentId}`);
+      console.log(response);
+      setMedicineData(response);
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to fetch,try again",
+      })
+    }
+  }
 
   return (
     <>

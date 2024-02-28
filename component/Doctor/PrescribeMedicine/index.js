@@ -10,7 +10,7 @@ import {
   Modal,
   IconButton,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import MedicationIcon from "@mui/icons-material/Medication";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +25,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 import { DELETE, GET, UPDATE } from "@/services/httpClient";
 import { useRouter } from "next/router";
+import { AppContext } from "@/context/appContext";
 
 const style = {
   position: "absolute",
@@ -40,6 +41,7 @@ const style = {
 };
 
 export default function PrescribeMedicine() {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const router = useRouter();
   const { appointmentId } = router.query;
   const [medicineData, setMedicineData] = useState([]);
@@ -53,20 +55,34 @@ export default function PrescribeMedicine() {
 
   async function getMedicines() {
     try {
+      setIsLoading(true)
       const response = await GET(`/prescribe-medicine/${appointmentId}`);
       console.log(response);
       setMedicineData(response);
+      setIsLoading(false)
     } catch (error) {
-      console.log(error);
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to fetch,try again",
+      })
     }
   }
 
   async function getAppointmentStatus(){
     try {
+      setIsLoading(true)
       const response= await GET(`/prescribe-medicine/appointment-status/${appointmentId}`);
       setAppointmentStatus(response)
+      setIsLoading(false)
     } catch (error) {
-      console.log(error)
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to fetch,try again",
+      })
     }
   }
 
@@ -81,30 +97,61 @@ export default function PrescribeMedicine() {
 
   const handleDelete = async (id) => {
     try {
+      setIsLoading(true)
       const response = await DELETE(`/prescribe-medicine/${id}`);
       getMedicines();
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Deleted successfully",
+      })
     } catch (error) {
-      console.log(error);
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to delete,try again",
+      })
     }
   };
   const updateAppointmentStatus = async () => {
     try {
+      setIsLoading(true)
       const response = await UPDATE(`/prescribe-medicine`, {
         status: "completed",
         id: appointmentId,
       });
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "success",
+        open: true,
+        message: "Mark as completed",
+      })
     } catch (error) {
-      console.log(error);
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to complete,try again",
+      })
     }
   };
 
   async function getPatientData(){
     try {
+      setIsLoading(true)
       const response= await GET(`/prescribe-medicine/patient/${appointmentId}`)
       console.log(response)
       setPatientData(response)
+      setIsLoading(false)
     } catch (error) {
-      console.log(error)
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to fetch,try again",
+      })
     }
   }
   return (
@@ -322,7 +369,7 @@ export default function PrescribeMedicine() {
             >
               <ClearIcon sx={{ margin: "0 1rem" }} onClick={handleClose} />
             </Box>
-            <AddMedicine />
+            <AddMedicine setMedicineData={setMedicineData} />
           </Grid>
         </Grid>
       </Modal>

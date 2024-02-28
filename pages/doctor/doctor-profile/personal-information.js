@@ -17,7 +17,6 @@ export default function index() {
           borderRadius: "5px",
         }}
       >
-        <Avatar />
         <PersonalInformation />
         <Box m="1rem 0 2rem 0">
           <Divider />

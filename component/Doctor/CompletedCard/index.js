@@ -1,31 +1,36 @@
 import React, { useContext, useEffect, useState } from "react";
 import Avatarpatient from "../Avatar2";
 import {
-  Button,
-  CardActions,
   Card,
+  Link,
+  Button,
   CardContent,
   Typography,
-  Link,
   Box,
+  CardActions,
 } from "@mui/material";
-import { GET, UPDATE } from "@/services/httpClient";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { GET } from "@/services/httpClient";
+import { useRouter } from "next/router";
 import { ProfileContext } from "@/context/profileContext";
 import { AppContext } from "@/context/appContext";
 
 const PatientCard = () => {
-  const { profileData } = useContext(ProfileContext);
+  const router = useRouter();
   const {setIsLoading,setSnackbarState}=useContext(AppContext)
+  const { profileData } = useContext(ProfileContext);
   const [appointments, setAppointments] = useState();
   const [allAppointmentData, setAllAppointmentData] = useState([])
   const totalwidth = 40;
   const totalheight = 40;
-  console.log(appointments)
+  useEffect(() => {
+    if (profileData._id) fetchAllAppointments();
+  }, [profileData._id]);
   async function fetchAllAppointments() {
     try {
       setIsLoading(true)
       const response = await GET("/appointment/by-doctor-id", {
-        params: { id: profileData._id, status: "pending" },
+        params: { id: profileData._id, status: "approved" },
       });
       setAppointments(response);
       setIsLoading(false)
@@ -38,36 +43,11 @@ const PatientCard = () => {
       })
     }
   }
-  useEffect(() => {
-    if (profileData._id) fetchAllAppointments();
-  }, [profileData?._id]);
-  async function updateAppointmentStatus(id, status) {
-    try {
-      setIsLoading(true)
-      const response = await UPDATE("/appointment/by-doctor-id", {
-        id,
-        status,
-      });
-      if (!response.error) fetchAllAppointments();
-      setIsLoading(false)
-      setSnackbarState({
-        severity: "success",
-        open: true,
-        message: "Status updated, successfully",
-      })
-    } catch (error) {
-      setIsLoading(false)
-      setSnackbarState({
-        severity: "error",
-        open: true,
-        message: "Failed to update,try again",
-      })
-    }
-  }
+
   async function getPatientDetails(){
     try {
       setIsLoading(true)
-        const response= await GET(`/appointment/patient-details/${profileData._id}`)
+        const response= await GET(`/appointment/patient-completed-details/${profileData._id}`)
         setAllAppointmentData(response)
         setIsLoading(false)
     } catch (error) {
@@ -75,7 +55,7 @@ const PatientCard = () => {
       setSnackbarState({
         severity: "error",
         open: true,
-        message: "Failed to fetch,try again",
+    message: "Failed to fetch,try again",
       })
     }
   }
@@ -84,26 +64,27 @@ const PatientCard = () => {
          if(profileData._id){
           getPatientDetails();
          }
-  },[profileData?._id])
+  },[profileData._id])
   return (
    <Box display='flex' justifyContent='center' mt='2rem'>
-    <Box
+     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width:"90%"
+        width:'90%'
       }}
       flexWrap='wrap'
     >
       {allAppointmentData?.map((appointment) => (
-        <Card sx={{ width: 270,margin:'0.7rem',padding:'0.3rem 0' }} key={appointment._id}>
+        <Card sx={{ width: 270,margin:'0.7rem',padding:'0.3rem 0'}} key={appointment._id}>
           <Box
             display="flex"
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
             p="0.5rem 0"
+  
           >
             <Avatarpatient image={appointment?.patientsData[0]?.profilePicture} mwidth={totalwidth} mheight={totalheight} />
             <Typography
@@ -111,11 +92,12 @@ const PatientCard = () => {
               variant="body1"
               component="div"
             >
-              {appointment?.patientsData[0]?.firstName + " " + appointment?.patientsData[0]?.lastName}
+        {appointment?.patientsData[0]?.firstName + " " + appointment?.patientsData[0]?.lastName}
+
             </Typography>
           </Box>
           <CardContent>
-            <Box >
+            <Box>
               <Typography
                 variant="body1"
                 sx={{
@@ -125,14 +107,14 @@ const PatientCard = () => {
                   fontSize: "13px",
                 }}
               >
-                Contact Number:
+                Contact number:
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                {appointment.patientsData[0].contactNumber}{" "}
+                {appointment?.patientsData[0]?.contactNumber}{" "}
               </Typography>
             </Box>
             <Box >
@@ -152,10 +134,10 @@ const PatientCard = () => {
                 sx={{ display: "inline", color: "#515454" }}
               >
                 {" "}
-                {appointment.patientsData[0].email}{" "}
+                {appointment?.patientsData[0]?.email}{" "}
               </Typography>
             </Box>
-            <Box>
+            <Box >
               <Typography
                 variant="body1"
                 sx={{
@@ -190,6 +172,7 @@ const PatientCard = () => {
               <Typography variant="body2" sx={{ display: "inline" }}>
                 {" "}
                 {appointment?.slotsData[0]?.startTime + " - " + appointment?.slotsData[0]?.endTime}
+
               </Typography>
             </Box>
           </CardContent>
@@ -201,28 +184,17 @@ const PatientCard = () => {
             }}
           >
             <Button
+              onClick={() =>
+                router.push(
+                  `/doctor/medicine/?appointmentId=${appointment._id}&&patientId=${appointment.patientId}`
+                )
+              }
+              sx={{ display: "flex", justifyContent: "center",color:'white' }}
               variant="contained"
               size="small"
-              onClick={() =>
-                updateAppointmentStatus(appointment._id, "approved")
-              }
-            >
-             <Typography textTransform='none' fontSize='14px'>Approve</Typography>
-
-            </Button>
-
-            <Button
               color="secondary"
-              sx={{
-                color: "#fff",
-              }}
-              variant="contained"
-              size="small"
-              onClick={() =>
-                updateAppointmentStatus(appointment._id, "cancelled")
-              }
             >
-              <Typography textTransform='none' fontSize='14px'>Cancel</Typography>
+              <Typography textTransform='none' fontSize='14px'>Prescribed Medicine</Typography>
             </Button>
           </CardActions>
         </Card>
