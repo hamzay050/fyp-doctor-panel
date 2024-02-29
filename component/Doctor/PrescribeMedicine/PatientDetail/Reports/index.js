@@ -3,19 +3,29 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { Typography, Grid, Card, Box } from "@mui/material";
 import {GET} from "@/services/httpClient"
 import { useRouter } from "next/router";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
 
 function index() {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const [allFiles, setAllFiles] = useState([]);
   const router=useRouter()
   const {appointmentId}=router.query
   async function fetchAllFiles() {
     try {
+      setIsLoading(true)
       const response = await GET("/upload-file/by-appointment-id", {
         params: { appointmentId },
       });
       setAllFiles(response);
-    } catch (error) {}
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Failed to fetch,try again",
+        })
+    }
   }
   useEffect(() => {
     if (appointmentId) fetchAllFiles();

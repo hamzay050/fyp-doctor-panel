@@ -14,6 +14,7 @@ import {
   Avatar,
   Input,
 } from "@mui/material";
+import specialties from "./specialties";
 import { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "@/context/appContext";
 
@@ -249,20 +250,23 @@ export default function PersonalInformation() {
             margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
           }}
         />
-         <TextField
-              variant="outlined"
-              label="speciality"
-              name="speciality"
-              size="small"
-              value={data.speciality}
-              onChange={(e) => {
-                setData({ ...data, speciality: e.target.value });
-              }}
-              sx={{
-                width: { xs: "100%", sm: "40%", md: "27%" },
-                margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" },
-              }}
-            />
+         <FormControl 
+       size="small"   
+       sx={{width:'27%',margin: { xs: "0.4rem 0", sm: "0.4rem", md: "1rem 0.4rem" }}}   
+      >
+          <InputLabel id="demo-simple-select-label">speciality</InputLabel>
+          <Select
+            label="speciality"
+            name="speciality"
+            variant="outlined"
+            value={data.speciality}
+            onChange={(e)=>setData({...data,speciality:e.target.value})}
+          >
+            {specialties.map((val, index) => (
+              <MenuItem key={index} value={val}>{val}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
             <TextField
               variant="outlined"
               label="Fee"

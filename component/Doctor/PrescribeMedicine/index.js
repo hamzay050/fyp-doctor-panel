@@ -57,7 +57,6 @@ export default function PrescribeMedicine() {
     try {
       setIsLoading(true);
       const response = await GET(`/prescribe-medicine/${appointmentId}`);
-      console.log(response);
       setMedicineData(response);
       setIsLoading(false);
     } catch (error) {
@@ -103,11 +102,13 @@ export default function PrescribeMedicine() {
       const response = await DELETE(`/prescribe-medicine/${id}`);
       getMedicines();
       setIsLoading(false);
-      setSnackbarState({
-        severity: "success",
-        open: true,
-        message: "Deleted successfully",
-      });
+      if(response){
+        setSnackbarState({
+          severity: "success",
+          open: true,
+          message: "Deleted successfully",
+        });
+      }
     } catch (error) {
       setIsLoading(false);
       setSnackbarState({
@@ -125,11 +126,13 @@ export default function PrescribeMedicine() {
         id: appointmentId,
       });
       setIsLoading(false);
-      setSnackbarState({
-        severity: "success",
-        open: true,
-        message: "Mark as completed",
-      });
+      if(response){
+        setSnackbarState({
+          severity: "success",
+          open: true,
+          message: "Mark as completed",
+        });
+      }
     } catch (error) {
       setIsLoading(false);
       setSnackbarState({
@@ -385,13 +388,13 @@ export default function PrescribeMedicine() {
                     {new Date(value.startDate).toLocaleDateString()}
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Button
+                    {/* <Button
                       variant="contained"
                       color="secondary"
                       sx={{ padding: "0.1rem", color: "#fff" }}
                     >
                       View
-                    </Button>
+                    </Button> */}
                     <IconButton onClick={() => handleDelete(value._id)}>
                       <DeleteIcon sx={{ color: "#c1c0c0" }} />
                     </IconButton>
@@ -418,7 +421,7 @@ export default function PrescribeMedicine() {
             >
               <ClearIcon sx={{ margin: "0 1rem" }} onClick={handleClose} />
             </Box>
-            <AddMedicine />
+            <AddMedicine setOpen={setOpen} setMedicineData={setMedicineData} />
           </Grid>
         </Grid>
       </Modal>
