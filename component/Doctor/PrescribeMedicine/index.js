@@ -10,7 +10,7 @@ import {
   Modal,
   IconButton,
 } from "@mui/material";
-import { useState, useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import MedicationIcon from "@mui/icons-material/Medication";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -41,12 +41,12 @@ const style = {
 };
 
 export default function PrescribeMedicine() {
-  const {setIsLoading,setSnackbarState}=useContext(AppContext)
+  const { setIsLoading, setSnackbarState } = useContext(AppContext);
   const router = useRouter();
   const { appointmentId } = router.query;
   const [medicineData, setMedicineData] = useState([]);
-  const [patientData, setPatientData] = useState([])
-  const [appointmentStatus, setAppointmentStatus] = useState("")
+  const [patientData, setPatientData] = useState([]);
+  const [appointmentStatus, setAppointmentStatus] = useState("");
   console.log(appointmentStatus);
   const [open, setOpen] = useState(false);
 
@@ -55,34 +55,36 @@ export default function PrescribeMedicine() {
 
   async function getMedicines() {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await GET(`/prescribe-medicine/${appointmentId}`);
       console.log(response);
       setMedicineData(response);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "error",
         open: true,
         message: "Failed to fetch,try again",
-      })
+      });
     }
   }
 
-  async function getAppointmentStatus(){
+  async function getAppointmentStatus() {
     try {
-      setIsLoading(true)
-      const response= await GET(`/prescribe-medicine/appointment-status/${appointmentId}`);
-      setAppointmentStatus(response)
-      setIsLoading(false)
+      setIsLoading(true);
+      const response = await GET(
+        `/prescribe-medicine/appointment-status/${appointmentId}`
+      );
+      setAppointmentStatus(response);
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "error",
         open: true,
         message: "Failed to fetch,try again",
-      })
+      });
     }
   }
 
@@ -97,62 +99,78 @@ export default function PrescribeMedicine() {
 
   const handleDelete = async (id) => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await DELETE(`/prescribe-medicine/${id}`);
       getMedicines();
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "success",
         open: true,
         message: "Deleted successfully",
-      })
+      });
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "error",
         open: true,
         message: "Failed to delete,try again",
-      })
+      });
     }
   };
   const updateAppointmentStatus = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await UPDATE(`/prescribe-medicine`, {
         status: "completed",
         id: appointmentId,
       });
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "success",
         open: true,
         message: "Mark as completed",
-      })
+      });
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "error",
         open: true,
         message: "Failed to complete,try again",
-      })
+      });
     }
   };
 
-  async function getPatientData(){
+  async function getPatientData() {
     try {
-      setIsLoading(true)
-      const response= await GET(`/prescribe-medicine/patient/${appointmentId}`)
-      console.log(response)
-      setPatientData(response)
-      setIsLoading(false)
+      setIsLoading(true);
+      const response = await GET(
+        `/prescribe-medicine/patient/${appointmentId}`
+      );
+      console.log(response);
+      setPatientData(response);
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       setSnackbarState({
         severity: "error",
         open: true,
         message: "Failed to fetch,try again",
-      })
+      });
     }
+  }
+  async function handleShowPrescription() {
+    try {
+      // const response = await GET(
+      //   `/prescribe-medicine/get-pdf/${router.query.appointmentId}`
+      // );
+
+      window.open(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/prescribe-medicine/get-pdf/${router.query.appointmentId}`,
+        "_blank"
+      );
+
+      console.log("🚀 ~ handleShowPrescription ~ response:", response);
+    } catch (error) {}
   }
   return (
     <>
@@ -230,13 +248,29 @@ export default function PrescribeMedicine() {
             </Typography>
             <Box display="flex" justifyContent="flex-start" alignItems="center">
               <Tooltip title="Add Medicine">
-                <IconButton onClick={() => handleOpen()} disabled={appointmentStatus?.status!=='completed'?false:true}>
-                  <AddBoxIcon fontSize="small" sx={{ color: appointmentStatus?.status!=='completed' ? "white" : "#d5cece66" }} />
+                <IconButton
+                  onClick={() => handleOpen()}
+                  disabled={
+                    appointmentStatus?.status !== "completed" ? false : true
+                  }
+                >
+                  <AddBoxIcon
+                    fontSize="small"
+                    sx={{
+                      color:
+                        appointmentStatus?.status !== "completed"
+                          ? "white"
+                          : "#d5cece66",
+                    }}
+                  />
                 </IconButton>
               </Tooltip>
 
               <IconButton
-                disabled={!medicineData[0]?._id || appointmentStatus?.status === 'completed'}
+                disabled={
+                  !medicineData[0]?._id ||
+                  appointmentStatus?.status === "completed"
+                }
                 onClick={updateAppointmentStatus}
               >
                 <Tooltip title="Complete Prescription">
@@ -247,14 +281,29 @@ export default function PrescribeMedicine() {
                 </Tooltip>
               </IconButton>
 
-              <IconButton disabled={appointmentStatus?.status!=='completed'?false:true}>
+              <IconButton
+                disabled={
+                  appointmentStatus?.status !== "completed" ? false : true
+                }
+              >
                 <Tooltip title="View">
-                  <RemoveRedEyeIcon sx={{ color: appointmentStatus?.status!=='completed' ? "white" : "#d5cece66" }} />
+                  <RemoveRedEyeIcon
+                    sx={{
+                      color:
+                        appointmentStatus?.status !== "completed"
+                          ? "white"
+                          : "#d5cece66",
+                    }}
+                  />
                 </Tooltip>
               </IconButton>
-              <IconButton disabled={appointmentStatus?.status!=='completed'?false:true}>
+              <IconButton onClick={handleShowPrescription}>
                 <Tooltip title="Print">
-                  <PrintIcon sx={{ color: appointmentStatus?.status!=='completed' ? "white" : "#d5cece66" }} />
+                  <PrintIcon
+                    sx={{
+                      color: "white",
+                    }}
+                  />
                 </Tooltip>
               </IconButton>
             </Box>

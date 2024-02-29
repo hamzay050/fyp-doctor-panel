@@ -6,8 +6,10 @@ import { useState } from "react";
 import { GET, POST } from "@/services/httpClient";
 import { ProfileContext } from "@/context/profileContext";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 function index({ patientData }) {
+  const router = useRouter();
   const { profileData } = useContext(ProfileContext);
 
   const [messages, setMessages] = useState([]);
@@ -15,12 +17,19 @@ function index({ patientData }) {
 
   useEffect(() => {
     if (profileData._id && patientData._id)
-      fetchMessages(profileData._id, patientData._id);
+      setInterval(() => {
+        fetchMessages(router.query.patientId, profileData._id);
+      }, 3000);
   }, [profileData._id]);
+
   const fetchMessages = async (senderId, receiverId) => {
     try {
       const response = await GET("/messages", {
-        params: { senderId, receiverId },
+        params: {
+          senderId,
+          receiverId,
+          appointmentId: router.query.appointmentId,
+        },
       });
       setMessages(response);
     } catch (error) {
@@ -34,9 +43,10 @@ function index({ patientData }) {
         message: myMessages,
         senderId: profileData._id,
         receiverId: patientData._id,
+        appointmentId: router.query.appointmentId,
       });
 
-      fetchMessages(profileData._id, patientData._id);
+      fetchMessages(router.query.patientId, profileData._id);
       setMyMessages("");
     } catch (error) {
       console.error("Error sending message:", error);
@@ -45,37 +55,39 @@ function index({ patientData }) {
   return (
     <>
       <Box
+        sx={{ overflow: "scroll" }}
         width="100%"
         height="320px"
         display="flex"
         flexDirection="column"
         justifyContent="flex-end"
       >
-        {messages?.length &&
-          messages.map((message) => {
-            console.log("====:", message.senderId, profileData._id);
+        {messages?.length
+          ? messages.map((message) => {
+              console.log("====:", message.senderId, profileData._id);
 
-            console.log(
-              "Is sender:",
-              message.senderId === profileData._id ? "No" : "Yes"
-            );
+              console.log(
+                "Is sender:",
+                message.senderId === profileData._id ? "No" : "Yes"
+              );
 
-            return (
-              <Box
-                key={message._id}
-                width="100%"
-                display="flex"
-                flexDirection="column"
-                alignItems={
-                  message.senderId === profileData._id
-                    ? "flex-end"
-                    : "flex-start"
-                }
-              >
-                <ChatBubble message={message} />
-              </Box>
-            );
-          })}
+              return (
+                <Box
+                  key={message._id}
+                  width="100%"
+                  display="flex"
+                  flexDirection="column"
+                  alignItems={
+                    message.senderId === profileData._id
+                      ? "flex-end"
+                      : "flex-start"
+                  }
+                >
+                  <ChatBubble message={message} />
+                </Box>
+              );
+            })
+          : null}
 
         <Box mt={2}>
           <Footer
