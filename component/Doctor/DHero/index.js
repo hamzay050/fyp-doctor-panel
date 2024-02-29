@@ -6,11 +6,48 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import PiChart from "@/component/Chart"
-
-
+import { ProfileContext } from '@/context/profileContext';
+import { useContext,useEffect,useState } from 'react';
+import { GET } from '@/services/httpClient';
 
 
 const DHero = () => {
+  const [pendingCount, setPendingCount] = useState(0)
+  const [approvedCount, setApprovedCount] = useState(0)
+  const [appointments, setAppointments] = useState([])
+  const [review, setReview] = useState([])
+  const {profileData}=useContext(ProfileContext)
+  async function fetchData(){
+    try {
+      const response= await GET('/appointment/by-doctor-id',{params:{id:profileData?._id,status:'pending'}})
+      const responseApproved= await GET('/appointment/by-doctor-id',{params:{id:profileData?._id,status:'approved'}})
+       setPendingCount(response.length)
+       setApprovedCount(responseApproved.length)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async function fetchAppointment(){
+    try {
+      const response= await GET('/appointment/status/daily',{params:{id:profileData?._id}})
+      setAppointments(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async function getReviewsAverage(){
+    try {
+      const response= await GET('/review/byId',{params:{id:profileData?._id}})
+      setReview(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    fetchData();
+    fetchAppointment();
+    getReviewsAverage()
+  },[profileData?._id])
   return (
     <div>
     <Grid container  sx={{marginTop:"20px",display:"flex" ,justifyContent:"space-around"}}  >
@@ -25,10 +62,16 @@ const DHero = () => {
               alt="Login Image"
               style={{ margin: "0.3rem", borderRadius: "4px" }}
             />
-       <Box  >
-         <Typography variant='body1' fontSize="17px" fontWeight="bold"  > Good Evening ,  <span style={{color:"#c24848"}}>Rogar Curtis</span></Typography>
-         <Typography variant='body2' fontSize="12px" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur labore cupiditate impedit eaque explicabo sunt. Id, vero? Et dicta debitis dignissimos?.</Typography>
-         </Box>
+  <Box>
+  <Typography variant='body1' fontSize="17px" fontWeight="bold">
+    Welcome , <span style={{ color:"#c24848" }}>Dr. {profileData?.firstName + " " + profileData?.lastName}</span>
+  </Typography>
+  <Typography variant='body2' fontSize="12px">
+    Welcome to your dashboard, Dr.{profileData.firstName+" "+profileData?.lastName}. Here you can manage your appointments, review patient information, and provide exceptional care to your patients.
+  </Typography>
+</Box>
+
+
          </Box>
       </Grid>
       <Grid item sm={3}>
@@ -36,7 +79,7 @@ const DHero = () => {
        < PendingActionsIcon fontSize='large' />
        <Box textAlign="center" >
          <Typography variant='body1' fontSize="15px">Pending</Typography>
-         <Typography variant='h5'>250</Typography>
+         <Typography variant='h5'>{pendingCount}</Typography>
          </Box>
          </Box>
       </Grid>
@@ -45,7 +88,7 @@ const DHero = () => {
        < AssignmentTurnedInIcon fontSize='large' />
        <Box textAlign="center" >
          <Typography variant='body1' fontSize="15px">Approved</Typography>
-         <Typography variant='h5'>350</Typography>
+         <Typography variant='h5'>{approvedCount}</Typography>
          </Box>
          </Box>
       </Grid>
@@ -67,33 +110,21 @@ const DHero = () => {
         <Box display="flex" justifyContent="space-between" mt="20px" mr="13px" pl="25px" pr="15px">
             <Typography>Name</Typography>
             <Typography>Date</Typography>
-            <Typography>Time</Typography>
             <Typography>Status</Typography>
            
          </Box>
-         <Box display="flex" justifyContent="space-between" bgcolor="white" alignItems="center" mt="20px" mr="13px" pl="10px" ml="8px" boxShadow="2" borderRadius="8px" height="60px">
-       <Box display="flex" alignItems="center" gap="10px">  <Avatar sx={{width:"30px",height:"30px"}}></Avatar> <Typography> Johon</Typography></Box>
-            <Typography>10/2/2024</Typography>
-            <Typography>12:30 pm</Typography>
-            <Box width="110px" display="flex" alignItems="center" justifyContent="center" borderRadius="50px">
-            <Badge badgeContent="Approved" color='primary' />
-            </Box>
-         </Box>
-         <Box display="flex" justifyContent="space-between" bgcolor="white" alignItems="center" mt="20px" mr="13px" pl="10px" ml="8px" boxShadow="2" borderRadius="8px" height="60px">
-       <Box display="flex" alignItems="center" gap="10px">  <Avatar sx={{width:"30px",height:"30px"}}></Avatar> <Typography> Johon</Typography></Box>
-            <Typography>10/2/2024</Typography>
-            <Typography>12:30 pm</Typography>
-            <Box width="110px" display="flex" alignItems="center" justifyContent="center" borderRadius="50px">
-            <Badge badgeContent="Approved" color='primary' />
-            </Box>
-         </Box> <Box display="flex" justifyContent="space-between" bgcolor="white" alignItems="center" mt="20px" mr="13px" pl="10px" ml="8px" boxShadow="2" borderRadius="8px" height="60px">
-       <Box display="flex" alignItems="center" gap="10px">  <Avatar sx={{width:"30px",height:"30px"}}></Avatar> <Typography> Johon</Typography></Box>
-            <Typography>10/2/2024</Typography>
-            <Typography>12:30 pm</Typography>
-            <Box width="110px" display="flex" alignItems="center" justifyContent="center" borderRadius="50px">
-            <Badge badgeContent="Rejected" color='error' />
-            </Box>
-         </Box>
+    {appointments && appointments?.slice(0,3).map((value)=>{
+      return(
+     <Box key={value._id} display="flex" justifyContent="space-between" bgcolor="white" alignItems="center" mt="20px" mr="13px" pl="10px" ml="8px" boxShadow="2" borderRadius="8px" height="60px">
+        <Box display="flex" alignItems="center" gap="10px">  <Avatar sx={{width:"30px",height:"30px"}}></Avatar> <Typography> Johon</Typography></Box>
+        <Typography>{new Date(value.date).toLocaleDateString()}</Typography>
+        <Box width="110px" display="flex" alignItems="center" justifyContent="center" borderRadius="50px">
+        <Badge badgeContent={value.status} color='primary' />
+        </Box>
+     </Box>
+      )
+    })}
+
        </Box>
       </Grid>
       <Grid item sm={4}>

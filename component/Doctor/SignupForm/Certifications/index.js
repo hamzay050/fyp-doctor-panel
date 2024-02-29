@@ -235,7 +235,7 @@ function Certifications() {
         </Box>
       </Modal>
 
-     <Box width='57%' height='440px' sx={{overflowY:'scroll'}} >
+     <Box width='57%' height='440px' >
      {allCertificates.length !== 0 &&
         allCertificates.map((value, index) => (
           <Box

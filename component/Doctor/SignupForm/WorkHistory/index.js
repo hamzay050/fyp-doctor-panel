@@ -292,7 +292,7 @@ export default function WorkHistory() {
         </Box>
       </Modal>
 
-      <Box width="57%" height="440px" sx={{ overflowY: "scroll" }}>
+      <Box width="57%" height="440px">
         {allWorks.length !== 0 &&
           allWorks.map((value, index) => (
             <Box

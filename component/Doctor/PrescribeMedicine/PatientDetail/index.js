@@ -38,7 +38,7 @@ export default function PatientDetail({ patientData }) {
       <Divider />
       <Box>
         {value == "Profile" ? (
-          <Profile />
+          <Profile patientData={patientData} />
         ) : value == "Reports" ? (
           <Reports />
         ) : value == "Messages" ? (
