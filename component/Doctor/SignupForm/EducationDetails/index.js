@@ -245,7 +245,7 @@ export default function EducationDetails() {
         </Box>
       </Modal>
 
-     <Box width='57%' height='440px' sx={{overflowY:'scroll'}} >
+     <Box width='57%' height='440px' >
      {allEducations.length !== 0 &&
         allEducations.map((value, index) => (
           <Box

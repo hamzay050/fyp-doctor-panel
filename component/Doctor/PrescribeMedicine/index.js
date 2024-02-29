@@ -369,7 +369,7 @@ export default function PrescribeMedicine() {
             >
               <ClearIcon sx={{ margin: "0 1rem" }} onClick={handleClose} />
             </Box>
-            <AddMedicine setMedicineData={setMedicineData} />
+            <AddMedicine />
           </Grid>
         </Grid>
       </Modal>
