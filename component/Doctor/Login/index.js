@@ -35,7 +35,7 @@ export default function Login() {
       console.log(response);
 
       if (!response.error) {
-        router.push("/doctor/patient-records");
+        router.push("/doctor/home");
       } else {
         console.log("Login failed");
         setSnackbarState({

@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Typography, Switch, TextField, Button } from "@mui/material";
 import { GET, POST } from "@/services/httpClient";
 import { ProfileContext } from "@/context/profileContext";
+import { AppContext } from "@/context/appContext";
 
 const WeekScheduleForm = () => {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const { profileData } = useContext(ProfileContext);
   const days = [
     "Monday",
@@ -44,17 +46,42 @@ const WeekScheduleForm = () => {
     body.timeSlots = schedule;
     body.doctorId = profileData._id;
     try {
+      setIsLoading(true)
       const response = await POST("/timeSlot", body);
-    } catch (error) {}
+      setIsLoading(false)
+      if(response){
+        setSnackbarState({
+          severity: "success",
+          open: true,
+          message: "Saved successfully",
+        })
+      }
+    } catch (error) {
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to fetch,try again",
+      })
+    }
   };
   async function fetchTimeSlots() {
     try {
+      setIsLoading(true)
       const response = await GET("/timeSlot", {
         params: { doctorId: profileData._id },
       });
       console.log("🚀 ~ fetchTimeSlots ~ response:", response);
       setSchedule(response);
-    } catch (error) {}
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      setSnackbarState({
+        severity: "error",
+        open: true,
+        message: "Failed to fetch,try again",
+      })
+    }
   }
   useEffect(() => {
     if (profileData._id) fetchTimeSlots();

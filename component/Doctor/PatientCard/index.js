@@ -48,13 +48,16 @@ const PatientCard = () => {
         id,
         status,
       });
-      if (!response.error) fetchAllAppointments();
+      fetchAllAppointments(); 
       setIsLoading(false)
-      setSnackbarState({
-        severity: "success",
-        open: true,
-        message: "Status updated, successfully",
-      })
+      if (!response.error){
+        setSnackbarState({
+          severity: "success",
+          open: true,
+          message: "Status updated, successfully",
+        })
+      }
+      
     } catch (error) {
       setIsLoading(false)
       setSnackbarState({

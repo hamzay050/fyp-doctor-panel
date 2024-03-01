@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { POST,GET } from "@/services/httpClient";
 import { AppContext } from "@/context/appContext";
 
-export default function AddMedicine({setMedicineData}) {
+export default function AddMedicine({setMedicineData,setOpen}) {
   const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const router= useRouter();
   const {appointmentId}= router.query;
@@ -40,18 +40,21 @@ export default function AddMedicine({setMedicineData}) {
       setIsLoading(true)
       const response= await POST(`/prescribe-medicine`,{data})
       getMedicines()
+      setOpen(false)
       setIsLoading(false)
-      setSnackbarState({
-        severity: "success",
-        open: true,
-        message: "Saved successfully",
-      })
+      if(response){
+        setSnackbarState({
+          severity: "success",
+          open: true,
+          message: "Created successfully",
+        })
+      }
     } catch (error) {
        setIsLoading(false)
       setSnackbarState({
         severity: "error",
         open: true,
-        message: "Failed to save,try again",
+        message: "Failed to create,try again",
       })
     }
   }

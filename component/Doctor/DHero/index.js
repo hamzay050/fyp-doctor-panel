@@ -9,9 +9,11 @@ import PiChart from "@/component/Chart"
 import { ProfileContext } from '@/context/profileContext';
 import { useContext,useEffect,useState } from 'react';
 import { GET } from '@/services/httpClient';
+import { AppContext } from "@/context/appContext";
 
 
 const DHero = () => {
+  const {setIsLoading,setSnackbarState}=useContext(AppContext)
   const [pendingCount, setPendingCount] = useState(0)
   const [approvedCount, setApprovedCount] = useState(0)
   const [appointments, setAppointments] = useState([])
@@ -19,34 +21,40 @@ const DHero = () => {
   const {profileData}=useContext(ProfileContext)
   async function fetchData(){
     try {
+      setIsLoading(true)
       const response= await GET('/appointment/by-doctor-id',{params:{id:profileData?._id,status:'pending'}})
       const responseApproved= await GET('/appointment/by-doctor-id',{params:{id:profileData?._id,status:'approved'}})
        setPendingCount(response.length)
        setApprovedCount(responseApproved.length)
+       setIsLoading(false)
     } catch (error) {
-      console.log(error)
+      setIsLoading(false)
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Failed to fetch,try again",
+        })
     }
   }
   async function fetchAppointment(){
     try {
+      setIsLoading(true)
       const response= await GET('/appointment/status/daily',{params:{id:profileData?._id}})
       setAppointments(response)
+      setIsLoading(false)
     } catch (error) {
-      console.log(error)
+      setIsLoading(false)
+        setSnackbarState({
+          severity: "error",
+          open: true,
+          message: "Failed to fetch,try again",
+        })
     }
   }
-  async function getReviewsAverage(){
-    try {
-      const response= await GET('/review/byId',{params:{id:profileData?._id}})
-      setReview(response)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+ 
   useEffect(()=>{
     fetchData();
     fetchAppointment();
-    getReviewsAverage()
   },[profileData?._id])
   return (
     <div>
@@ -130,7 +138,7 @@ const DHero = () => {
       <Grid item sm={4}>
       <Box height="350px" bgcolor="#eeeef4"  boxShadow="1" borderRadius="7px"  >
       <Typography variant='body1' pt="20px" pl="15px">
-          Review
+          Total Appointments
           
         </Typography>
       <Box height="280px" display="flex" alignItems="center"  gap="10px">

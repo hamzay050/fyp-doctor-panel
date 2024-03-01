@@ -110,21 +110,6 @@ const Navbar = () => {
               </Button>{" "}
             </Link> */}
             <Link
-              href="/doctor/patient-records"
-              style={{ margin: "0 0.7rem", textDecoration: "none" }}
-            >
-              {" "}
-              <Button
-                sx={{
-                  color: "white",
-                  fontSize: "0.898rem",
-                  letterSpacing: "1px",
-                }}
-              >
-                <Typography textTransform='none'>Records</Typography>
-              </Button>{" "}
-            </Link>
-            <Link
               href="/doctor/appointments-list"
               style={{ margin: "0 0.7rem", textDecoration: "none" }}
             >
@@ -137,21 +122,6 @@ const Navbar = () => {
                 }}
               >
                 <Typography textTransform='none'>Appointments</Typography>
-              </Button>{" "}
-            </Link>
-            <Link
-              href="/doctor/message"
-              style={{ margin: "0 0.7rem", textDecoration: "none" }}
-            >
-              {" "}
-              <Button
-                sx={{
-                  color: "white",
-                  fontSize: "0.898rem",
-                  letterSpacing: "1px",
-                }}
-              >
-                <Typography textTransform='none'>Messages</Typography>
               </Button>{" "}
             </Link>
           </Box>
@@ -212,7 +182,7 @@ const Navbar = () => {
                   />{" "}
                   Profile
                 </Link>
-                <Link
+                {/* <Link
                   href="/doctor/avialibility"
                   style={{
                     textDecoration: "none",
@@ -229,11 +199,11 @@ const Navbar = () => {
                     sx={{ margin: "0 0.4rem", color: "#999898" }}
                   />
                   Set Availibility
-                </Link>
+                </Link> */}
                 <Button
                   onClick={handleLogout}
                   color="secondary"
-                  sx={{ margin: "0rem 1rem" }}
+                  sx={{ margin: "0rem 0 0.4rem 1rem" }}
                   startIcon={<LogoutIcon />}
                 >
                   <Typography
